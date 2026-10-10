@@ -7,354 +7,402 @@
 /* ▼▼▼ 여기 한 줄만 바꾸세요: 따옴표 안에 구글 앱스 스크립트 웹 앱 주소(…/exec)를 붙여넣기 ▼▼▼ */
 window.QUIZ_CONFIG = { API_URL: 'https://script.google.com/macros/s/AKfycbxTg-UwXq5IA0wzwVBRTcif3M8H1xzSCMNolW7BlBN4ye9_8ByXCZ7A2FIVoLJxaI8/exec' };
 </script>
-<meta property="og:image" content="og-image.png">
+<!-- 공유 미리보기(카카오톡·슬랙·페이스북 등) -->
 <meta name="description" content="내 순위는 얼마나 될까? MICE·호텔·여행 실무 용어 30문제, 정답 수와 속도로 순위가 갈립니다. 지금 바로 도전하세요!">
+<meta name="keywords" content="MICE 용어, 호텔 용어, 여행업 용어, 항공 용어, 관광 실무 용어, 용어 퀴즈, 마이스, MICELINK">
+<meta name="author" content="MICELINK">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Tourism Industry Terminology Quiz">
+<meta property="og:site_name" content="MICELINK · Tourism Industry Terminology Quiz">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="✈️ 내 순위는 얼마나 될까? | Tourism Industry Terminology Quiz">
 <meta property="og:description" content="내 순위는 얼마나 될까? MICE·호텔·여행 실무 용어 30문제, 정답 수와 속도로 순위가 갈립니다. 지금 바로 도전하세요!">
+<meta property="og:image" content="og-image.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="내 순위는 얼마나 될까? 지금 바로 퀴즈에 도전하세요!">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0d1626">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1626'/><text x='50' y='70' font-size='62' text-anchor='middle'>✈️</text></svg>">
+<meta name="twitter:title" content="✈️ 내 순위는 얼마나 될까? | Tourism Industry Terminology Quiz">
+<meta name="twitter:description" content="내 순위는 얼마나 될까? MICE·호텔·여행 실무 용어 30문제, 정답 수와 속도로 순위가 갈립니다. 지금 바로 도전하세요!">
+<meta name="twitter:image" content="og-image.png">
+<meta name="theme-color" content="#ef6a4c">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23ef6a4c'/><text x='50' y='70' font-size='62' text-anchor='middle'>✈️</text></svg>">
 <title>Tourism Industry Terminology Quiz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
 <style>
-/* Layout: an airport at night — departure-board ranking, boarding-pass forms, a runway progress strip. Single dark look by design. */
+/* Layout: a bright travel day — airport window photo up top, white paper cards below, sunset coral for actions, sky blue for info. */
 :root{
-  --night:#0d1626; --apron:#14213a; --apron-2:#1b2b49; --line:#2a3d60;
-  --sign:#ffc83d; --sign-ink:#1a1405; --sky:#7cc4ff; --ink:#eaf1fb; --mute:#93a7c4;
-  --ok:#4ade80; --no:#f87171;
-  --f-display:"Do Hyeon","IBM Plex Sans KR",system-ui,sans-serif;
-  --f-body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  color-scheme:dark;
+  --page:#f2f5f8; --card:#ffffff; --ink:#1d2733; --sub:#5d6a7a; --line:#e3e8ee; --soft:#f6f8fa;
+  --coral:#ef6a4c; --coral-d:#d9553a; --coral-soft:#fff0eb;
+  --sky:#2f7fcf; --sky-soft:#eaf3fc;
+  --ok:#1f9d63; --ok-soft:#e8f6ef; --no:#dc4a4a; --no-soft:#fdeeee;
+  --gold:#f5b800;
+  --f:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --r:16px; --shadow:0 1px 2px rgba(29,39,51,.06),0 8px 24px rgba(29,39,51,.07);
+  --hero:url("https://images.unsplash.com/photo-1415959588285-66bbf7450d17?auto=format&fit=crop&w=2000&q=70");
+  color-scheme:light;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{background:var(--night);color:var(--ink)}
-body{font-family:var(--f-body);font-size:15px;line-height:1.55;padding-inline:16px;padding-block:0 8px;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{background:var(--page);color:var(--ink)}
+body{margin:0;font-family:var(--f);font-size:15.5px;line-height:1.6;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;font-variant-numeric:tabular-nums}
 input,textarea{-webkit-user-select:text;user-select:text}
-.wrap{max-width:1080px;margin:0 auto}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px}
 button{font:inherit;color:inherit;cursor:pointer}
-:focus-visible{outline:2px solid var(--sign);outline-offset:2px}
-.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid rgba(47,127,207,.45);outline-offset:2px}
+h1,h2,h3{text-wrap:balance}
+body,h1,h2,h3,p,td,.choice .t{word-break:keep-all;overflow-wrap:anywhere}
 
-/* top bar */
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
-.brand-mark{background:var(--sign);color:var(--sign-ink);font-family:var(--f-mono);font-weight:600;font-size:12px;padding:3px 7px;border-radius:3px;letter-spacing:.08em}
-.brand-name{font-family:var(--f-display);font-size:clamp(15px,3.6vw,20px);letter-spacing:.02em;text-align:left;line-height:1.2}
-.bar-meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);letter-spacing:.08em}
+/* header */
+.top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;text-align:left}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--coral);color:#fff;display:grid;place-items:center;font-size:17px;flex:none}
+.brand-name{font-weight:700;font-size:clamp(14px,3.4vw,17px);letter-spacing:-.01em;line-height:1.25}
+.bar-meta{font-size:13px;color:var(--sub);white-space:nowrap}
+@media (max-width:520px){.bar-meta{display:none}}
 
-/* hero */
-.hero{padding-block:34px 20px;display:grid;gap:10px}
-.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;color:var(--sky);text-transform:uppercase}
-.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.12;margin:0;text-wrap:balance}
-.hero h1 em{font-style:normal;color:var(--sign)}
-.hero p{margin:0;color:var(--mute);max-width:60ch}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-.chip{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--mute)}
+/* hero with airport photo */
+.hero{position:relative;color:#fff;background:#3b6f9e var(--hero) center 62%/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(14,33,54,.78) 0%,rgba(14,33,54,.5) 48%,rgba(14,33,54,.18) 100%)}
+.hero-in{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:28px;align-items:center;padding-block:48px 52px}
+@media (max-width:860px){.hero-in{grid-template-columns:minmax(0,1fr);padding-block:32px 28px}}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);padding:5px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+.hero h1{font-size:clamp(30px,5.4vw,50px);line-height:1.22;font-weight:900;margin:16px 0 14px;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:#ffd7c9}
+.hero p.lead{margin:0;max-width:34em;font-size:16px;color:rgba(255,255,255,.9)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{font-size:13px;background:rgba(255,255,255,.92);color:var(--ink);border-radius:999px;padding:4px 12px;font-weight:500}
+.photo-credit{position:absolute;right:12px;bottom:8px;font-size:11px;color:rgba(255,255,255,.7)}
+.photo-credit a{color:inherit}
 
-.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:22px;align-items:start;padding-block:10px 30px}
-@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+/* boarding pass form */
+.pass{background:var(--card);color:var(--ink);border-radius:20px;box-shadow:0 20px 50px rgba(8,24,40,.35);overflow:hidden;position:relative}
+.pass-head{background:var(--coral);color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.pass-head small{font-weight:500;opacity:.9}
+.pass-body{padding:20px 22px 22px;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.field{display:grid;gap:6px;min-width:0}
+.field label{font-size:13px;font-weight:700;color:var(--sub)}
+.field input{width:100%;min-width:0;border:1.5px solid var(--line);background:var(--soft);font-size:16px;font-weight:500;padding:11px 13px;color:var(--ink);border-radius:12px;transition:border-color .15s,background .15s}
+.field input:focus{outline:none;border-color:var(--sky);background:#fff}
+.field small{color:var(--sub);font-size:12.5px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.seat{display:grid;align-content:start;gap:6px}
+.seat b{font-size:13px;color:var(--sub)}
+.seat span{font-size:15px;font-weight:700;padding:11px 0}
+.tear{border-top:2px dashed var(--line);margin:2px -22px 0;position:relative}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 20px;font-weight:700;font-size:16px;transition:background .15s,transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn-go{background:var(--coral);color:#fff;width:100%;font-size:17px;padding:15px}
+.btn-go:hover{background:var(--coral-d)}
+.btn-go[disabled]{opacity:.5;cursor:not-allowed}
+.err{color:var(--no);font-size:13.5px;min-height:1em;margin:0}
+.notice{font-size:12.5px;color:var(--sub);margin:0}
 
-/* boarding pass */
-.pass{background:var(--ink);color:#16213a;border-radius:14px;position:relative;overflow:hidden}
-.pass-head{background:var(--sign);color:var(--sign-ink);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-weight:600;font-size:12px;letter-spacing:.14em}
-.pass-body{padding:18px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
-.pass::before,.pass::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:var(--night);top:calc(100% - 92px)}
-.pass::before{left:-11px}.pass::after{right:-11px}
-.field{display:grid;gap:5px;min-width:0}
-.field label{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:#55627a;text-transform:uppercase}
-.field input{width:100%;min-width:0;border:0;border-bottom:2px solid #c8d2e2;background:transparent;font-size:18px;font-weight:600;padding:6px 2px;color:#0f1a30;border-radius:0}
-.field input:focus{outline:none;border-bottom-color:#0f1a30}
-.field small{color:#66738b;font-size:12px}
-.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
-.perf{border-top:2px dashed #c8d2e2;margin:2px -18px 0}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:13px 18px;font-weight:700;font-size:16px}
-.btn-go{background:#0f1a30;color:var(--sign);width:100%}
-.btn-go:hover{background:#1c2c4d}
-.btn-go[disabled]{opacity:.45;cursor:not-allowed}
-.err{color:#b42318;font-size:13px;min-height:1em;margin:0}
-.notice{font-size:12px;color:#66738b;margin:0}
-
-/* departure board */
-.board{background:#070c16;border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.board-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
-.board-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;color:var(--sign);letter-spacing:.03em}
-.board-head span{font-family:var(--f-mono);font-size:11px;color:var(--mute);letter-spacing:.1em}
-.board-scroll{overflow-x:auto;max-height:520px;overflow-y:auto}
-table.rank{width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px}
-.rank th{position:sticky;top:0;background:#070c16;text-align:left;font-family:var(--f-mono);font-weight:500;font-size:10.5px;letter-spacing:.14em;color:var(--mute);padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
-.rank td{padding:9px 10px;border-bottom:1px solid #16213a;white-space:nowrap}
+/* sections */
+.section{padding-block:28px 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:18px 20px 12px;flex-wrap:wrap}
+.sec-head h2{margin:0;font-size:20px;font-weight:700}
+.sec-head span{font-size:13.5px;color:var(--sub)}
+.board-scroll{overflow-x:auto;max-height:560px;overflow-y:auto}
+table.rank{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+.rank th{position:sticky;top:0;background:var(--soft);text-align:left;font-weight:500;font-size:13px;color:var(--sub);padding:10px 14px;border-block:1px solid var(--line);white-space:nowrap}
+.rank td{padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.rank tr:last-child td{border-bottom:0}
 .rank td.num,.rank th.num{text-align:right}
-.rank .pos{font-family:var(--f-mono);font-weight:600;color:var(--sign);width:44px}
-.rank tr.top1 .pos{color:#ffd86b}
-.rank .who{font-weight:600}
-.rank .flap{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.rank tr.me td{background:rgba(255,200,61,.14)}
-.rank tr.me .who::after{content:"  ← 나";color:var(--sign);font-weight:500}
-.empty{padding:28px 16px;color:var(--mute);text-align:center}
-.medal{display:inline-block;width:1.3em}
+.rank .pos{font-weight:700;color:var(--sub);width:56px}
+.rank tr.top3 .pos{color:var(--ink)}
+.rank .who{font-weight:700}
+.rank .medal{display:inline-block;width:1.5em}
+.rank .sc b{color:var(--coral);font-size:16px}
+.rank tr.me td{background:var(--coral-soft)}
+@media (max-width:560px){table.rank{min-width:0;font-size:13px}.rank th,.rank td{padding:9px 6px}.rank th{font-size:11.5px}.rank td.who,.rank td:nth-child(3){white-space:normal}.rank .medal{display:none}.rank .pos{width:auto}.rank tr.me .who::after{display:none}.rank .sc b{font-size:14px}}
+.rank tr.me .who::after{content:"나";margin-left:8px;font-size:11.5px;font-weight:700;color:#fff;background:var(--coral);padding:1px 7px;border-radius:999px;vertical-align:2px}
+.empty{padding:34px 16px;color:var(--sub);text-align:center}
 
-/* footer */
-footer{padding-block:26px 18px;border-top:1px solid var(--line);margin-top:10px;display:grid;justify-items:center;gap:10px}
-.flaps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
-.flaps .fw{display:inline-flex;gap:3px}
-.flaps i{font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:13px;width:1.45em;height:1.9em;display:grid;place-items:center;background:#0a111f;border:1px solid var(--line);border-radius:3px;color:var(--sign);position:relative}
-.flaps i::after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid #000}
-.flaps i.sp{background:transparent;border-color:transparent}
-.flaps i.sp::after{display:none}
-.foot-sub{font-family:var(--f-mono);font-size:11px;color:var(--mute);letter-spacing:.16em}
-.admin-link{background:none;border:0;color:var(--mute);font-size:12px;text-decoration:underline;padding:4px}
+/* footer + stamp */
+footer{padding-block:40px 28px;display:grid;justify-items:center;gap:12px}
+.stamp{display:inline-flex;align-items:center;gap:12px;padding:10px 20px;border:2.5px solid var(--coral);border-radius:14px;color:var(--coral);transform:rotate(-3deg);box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4.5px var(--coral);background:#fff}
+.stamp .plane{font-size:22px;line-height:1;width:26px;flex:none;text-align:center}
+.stamp .t1{font-size:10.5px;letter-spacing:.28em;font-weight:700;display:block;text-align:center}
+.stamp .t2{font-size:19px;letter-spacing:.12em;font-weight:900;display:block;line-height:1.2}
+.foot-sub{font-size:12px;color:var(--sub)}
+.admin-link{background:none;border:0;color:var(--sub);font-size:12.5px;text-decoration:underline;padding:4px}
 
 /* quiz */
-.q-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:18px 6px;flex-wrap:wrap}
-.q-count{font-family:var(--f-mono);font-size:13px;color:var(--mute);letter-spacing:.1em}
-.q-count b{color:var(--ink);font-size:18px}
-.timer{font-family:var(--f-mono);font-size:22px;color:var(--sign);font-weight:600;font-variant-numeric:tabular-nums}
-.flight{position:relative;height:118px;margin-block:4px 10px;border-radius:12px;background:linear-gradient(180deg,#0b1424 0%,#13213b 100%);border:1px solid var(--line);overflow:hidden}
-.runway{position:absolute;left:0;right:0;bottom:0;height:26px;background:#2b3442;border-top:2px solid #3d4757}
-.runway::after{content:"";position:absolute;left:6%;right:12%;top:11px;border-top:3px dashed #e9edf3;opacity:.55}
-.flight .pt{position:absolute;bottom:22px;font-size:26px;line-height:1;transform:translateX(-50%)}
+.q-head{background:linear-gradient(180deg,#dcecf9 0%,#eef5fb 70%,var(--page) 100%)}
+.q-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:18px 8px;flex-wrap:wrap}
+.q-count{font-size:15px;color:var(--sub)}
+.q-count b{color:var(--ink);font-size:22px}
+.timer{font-size:15px;font-weight:700;color:var(--sky);background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 14px}
+.timer::before{content:"⏱ "}
+.flight{position:relative;height:120px;margin-block:4px 18px;border-radius:18px;background:linear-gradient(180deg,#bfe0f8 0%,#e6f3fc 70%);overflow:hidden;border:1px solid #d3e6f5}
+.cloud{position:absolute;background:#fff;border-radius:999px;opacity:.85}
+.cloud.c1{width:70px;height:18px;left:18%;top:20px}.cloud.c2{width:46px;height:13px;left:64%;top:30px}.cloud.c3{width:90px;height:20px;left:78%;top:12px;opacity:.6}
+.runway{position:absolute;left:0;right:0;bottom:0;height:26px;background:#9aa7b4}
+.runway::after{content:"";position:absolute;left:6%;right:12%;top:11px;border-top:3px dashed #fff;opacity:.8}
+.flight .pt{position:absolute;bottom:24px;font-size:26px;line-height:1;transform:translateX(-50%)}
 .flight .flag{left:4%}
-.flight .globe{left:50%;bottom:44px;font-size:30px}
-.flight .terminal{right:1%;transform:none;bottom:20px;font-size:40px}
-.flight .tlabel{position:absolute;right:8px;top:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--mute)}
-.flight .slabel{position:absolute;left:8px;top:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--mute)}
-.plane{position:absolute;bottom:30px;left:4%;font-size:34px;line-height:1;transition:left .6s cubic-bezier(.3,.7,.3,1),bottom .6s ease;will-change:left;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
-.trail{position:absolute;bottom:46px;left:4%;height:2px;background:linear-gradient(90deg,transparent,rgba(124,196,255,.6));transition:width .6s cubic-bezier(.3,.7,.3,1)}
+.flight .globe{left:50%;bottom:48px;font-size:30px}
+.flight .terminal{right:1%;transform:none;bottom:22px;font-size:40px}
+.flight .lbl{position:absolute;top:8px;font-size:11.5px;font-weight:700;color:#4b6f90}
+.flight .l1{left:12px}.flight .l2{right:12px}
+.plane{position:absolute;bottom:30px;left:4%;font-size:34px;line-height:1;transition:left .6s cubic-bezier(.3,.7,.3,1),bottom .6s ease;filter:drop-shadow(0 4px 4px rgba(0,0,0,.18))}
+.trail{position:absolute;bottom:46px;left:4%;height:3px;border-radius:3px;background:linear-gradient(90deg,rgba(255,255,255,0),#fff);transition:width .6s cubic-bezier(.3,.7,.3,1)}
 
-.qcard{background:var(--apron);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:16px}
-.qtype{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;padding:3px 8px;border-radius:4px;background:var(--apron-2);color:var(--sky);border:1px solid var(--line)}
-.tag.rev{color:var(--sign)}
-.qask{color:var(--mute);font-size:14px;margin:0}
-.qprompt{font-size:clamp(19px,3.2vw,25px);font-weight:600;line-height:1.45;margin:0;text-wrap:pretty}
-.qprompt.word{font-family:var(--f-mono);font-size:clamp(26px,5vw,38px);color:var(--sign);letter-spacing:.02em}
-.qex{background:#0f1a2f;border-left:3px solid var(--sky);border-radius:0 8px 8px 0;padding:10px 14px;font-size:15px;color:#c9d6ea}
-.qex b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;color:var(--sky);display:block;margin-bottom:2px;font-weight:500}
+.qcard{padding:24px;display:grid;gap:16px}
+.qmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--coral-soft);color:var(--coral-d)}
+.tag.rev{background:#fff6dc;color:#9a6a00}
+.hash{font-size:13px;font-weight:500;color:var(--sky);background:var(--sky-soft);padding:3px 10px;border-radius:999px}
+.qask{color:var(--sub);font-size:14.5px;margin:0}
+.qprompt{font-size:clamp(19px,3.2vw,24px);font-weight:700;line-height:1.5;margin:0;text-wrap:pretty}
+.qprompt.word{font-size:clamp(30px,6vw,44px);font-weight:900;color:var(--ink);letter-spacing:-.01em}
+.qex{background:var(--soft);border-radius:12px;padding:12px 16px;font-size:15px;color:#3b4756;border:1px dashed var(--line)}
+.qex b{font-size:12px;font-weight:700;color:var(--sub);display:block;margin-bottom:2px}
 .choices{display:grid;gap:10px}
-.choice{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:var(--apron-2);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .15s,background .15s,transform .1s}
-.choice:hover{border-color:#4a6694}
-.choice:active{transform:scale(.995)}
-.choice .k{font-family:var(--f-mono);font-weight:600;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1.5px solid #4a6694;color:var(--mute);font-size:13px}
+.choice{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px 15px;transition:border-color .15s,background .15s,box-shadow .15s}
+.choice:hover{border-color:#f3a894;box-shadow:0 2px 10px rgba(239,106,76,.1)}
+.choice .k{font-weight:700;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--sub);font-size:14px}
 .choice .t{min-width:0;font-size:16px}
-.choice.en .t{font-family:var(--f-mono);font-size:19px;letter-spacing:.06em}
-.choice.sel{border-color:var(--sign);background:rgba(255,200,61,.1)}
-.choice.sel .k{background:var(--sign);color:var(--sign-ink);border-color:var(--sign)}
+.choice.en .t{font-size:19px;font-weight:700}
+.choice.sel{border-color:var(--coral);background:var(--coral-soft)}
+.choice.sel .k{background:var(--coral);color:#fff}
 .qnav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
-.btn-ghost:hover{border-color:#4a6694}
-.btn-sign{background:var(--sign);color:var(--sign-ink)}
-.btn-sign[disabled]{opacity:.4;cursor:not-allowed}
-.dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
-.dot{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:transparent;font-family:var(--f-mono);font-size:10.5px;color:var(--mute);padding:0}
-.dot.done{background:var(--apron-2);color:var(--ink);border-color:#4a6694}
-.dot.cur{border-color:var(--sign);color:var(--sign)}
-.hint{font-size:13px;color:var(--mute);margin:0}
+.btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:#c6d0db}
+.btn-main{background:var(--coral);color:#fff}
+.btn-main:hover{background:var(--coral-d)}
+.btn-main[disabled]{opacity:.45;cursor:not-allowed}
+.dots{display:flex;flex-wrap:wrap;gap:6px;padding-block:16px 4px}
+.dot{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:12px;color:var(--sub);padding:0}
+.dot.done{background:var(--sky-soft);color:var(--sky);border-color:#c9dff4;font-weight:700}
+.dot.cur{border:2px solid var(--coral);color:var(--coral);font-weight:700}
+.hint{font-size:13.5px;color:var(--sub);margin:0}
 
 /* result */
-.steps{display:flex;gap:6px;flex-wrap:wrap;padding-block:22px 4px}
-.step{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
-.step.on{border-color:var(--sign);color:var(--sign)}
-.arrived{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--ink);color:#16213a;border-radius:16px;padding:22px;margin-block:12px}
-@media (max-width:620px){.arrived{grid-template-columns:minmax(0,1fr)}}
-.arrived h2{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:28px}
-.arrived .meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:#3d4a62}
-.arrived .meta b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:#6a7690;display:block;font-weight:500}
+.steps{display:flex;gap:8px;flex-wrap:wrap;padding-block:24px 4px}
+.step{font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--sub)}
+.step.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.arrived{overflow:hidden;margin-block:14px}
+.arrived-top{background:var(--sky) var(--hero) center 62%/cover;position:relative;color:#fff;padding:22px 24px}
+.arrived-top::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,33,54,.82),rgba(14,33,54,.35))}
+.arrived-top>*{position:relative}
+.arrived h2{margin:0;font-size:26px;font-weight:900}
+.arrived-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:20px 24px}
+@media (max-width:620px){.arrived-body{grid-template-columns:minmax(0,1fr)}}
+.meta{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:15px}
+.meta b{font-size:12px;font-weight:500;color:var(--sub);display:block}
 .scorebox{text-align:right}
 @media (max-width:620px){.scorebox{text-align:left}}
-.score{font-family:var(--f-display);font-size:64px;line-height:1;color:#0f1a30}
-.score small{font-size:24px;color:#6a7690}
-.rankpill{display:inline-block;margin-top:6px;background:#0f1a30;color:var(--sign);font-family:var(--f-mono);font-weight:600;padding:5px 12px;border-radius:999px;font-size:13px}
-.sec-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin:26px 0 10px;color:var(--ink)}
-.sec-title span{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin-left:8px;letter-spacing:.06em}
-.share{background:var(--apron);border:1px dashed var(--sign);border-radius:14px;padding:18px;display:grid;gap:12px}
-.share textarea{width:100%;min-height:170px;resize:vertical;background:#0b1424;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;font-size:14px;line-height:1.6}
+.score{font-size:60px;line-height:1;font-weight:900;color:var(--coral)}
+.score small{font-size:22px;color:var(--sub);font-weight:500}
+.rankpill{display:inline-block;margin-top:8px;background:var(--ink);color:#fff;font-weight:700;padding:5px 14px;border-radius:999px;font-size:14px}
+.sec-title{font-size:21px;font-weight:700;margin:32px 0 12px}
+.sec-title span{font-size:13.5px;color:var(--sub);margin-left:8px;font-weight:400}
+.share{padding:20px;display:grid;gap:12px;background:linear-gradient(180deg,#fff,#fff7f4)}
+.share textarea{width:100%;min-height:180px;resize:vertical;background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:14.5px;line-height:1.7}
 .share .acts{display:flex;gap:10px;flex-wrap:wrap}
-.toast{font-size:13px;color:var(--ok);min-height:1em}
-.review{display:grid;gap:8px}
-.rv{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;background:var(--apron);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.rv .mark{font-family:var(--f-mono);font-weight:700;font-size:13px;height:30px;border-radius:6px;display:grid;place-items:center}
-.rv.ok .mark{background:rgba(74,222,128,.15);color:var(--ok)}
-.rv.no .mark{background:rgba(248,113,113,.15);color:var(--no)}
-.rv .p{margin:0;font-weight:600}
-.rv .a{margin:4px 0 0;font-size:13.5px;color:var(--mute)}
-.rv .a .y{color:var(--no)}
+.toast{font-size:13.5px;color:var(--ok);min-height:1em}
+.review{display:grid;gap:10px}
+.rv{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;padding:14px 16px}
+.rv .mark{font-weight:700;font-size:13px;height:30px;border-radius:8px;display:grid;place-items:center}
+.rv.ok .mark{background:var(--ok-soft);color:var(--ok)}
+.rv.no .mark{background:var(--no-soft);color:var(--no)}
+.rv .p{margin:0;font-weight:700}
+.rv .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.rv .a{margin:8px 0 0;font-size:14px;color:var(--sub);display:grid;gap:3px}
+.rv .a .y{color:var(--no);font-weight:500}
 .rv.ok .a .y{color:var(--ok)}
-.rv .a .c{color:var(--ink)}
-.res-acts{display:flex;gap:10px;flex-wrap:wrap;padding-block:20px 6px}
+.rv .a .c{color:var(--ink);font-weight:700}
+.rv .ex{margin-top:6px;font-size:13.5px;color:var(--sub);background:var(--soft);border-radius:8px;padding:8px 10px}
+.res-acts{display:flex;gap:10px;flex-wrap:wrap;padding-block:22px 6px}
 
 /* challenge */
-.challenge{margin-block:30px 6px;background:linear-gradient(135deg,#ffc83d,#ffad33);color:var(--sign-ink);border-radius:18px;padding:24px;display:grid;gap:8px}
-.challenge h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.5vw,34px);text-wrap:balance}
-.challenge p{margin:0;font-size:15px}
-.challenge .cstat{font-family:var(--f-mono);font-weight:600;font-size:15px}
+.challenge{background:#fff;color:var(--ink);border-radius:18px;padding:20px 22px;display:grid;gap:6px;box-shadow:0 14px 34px rgba(8,24,40,.3);margin-bottom:22px;border-left:6px solid var(--coral)}
+.challenge .eyebrow{font-size:12.5px;font-weight:700;color:var(--coral)}
+.challenge h2{margin:0;font-size:clamp(20px,3.6vw,26px);font-weight:900}
+.challenge p{margin:0;font-size:14.5px;color:var(--sub)}
+.challenge .cstat{font-weight:700;color:var(--ink);font-size:15px}
 
 /* admin */
-.tabs{display:flex;gap:6px;padding-block:20px 12px;flex-wrap:wrap}
-.tab{border:1px solid var(--line);background:transparent;border-radius:8px;padding:8px 14px;color:var(--mute)}
-.tab.on{background:var(--apron-2);color:var(--ink);border-color:#4a6694}
-.panel{background:var(--apron);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px}
+.tabs{display:flex;gap:6px;padding-block:22px 12px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;color:var(--sub)}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.panel{padding:20px;display:grid;gap:14px}
 .panel h3{margin:0;font-size:17px}
-.panel p{margin:0;color:var(--mute);font-size:14px}
-.panel textarea{width:100%;min-height:180px;background:#0b1424;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--f-mono);font-size:12.5px}
+.panel p{margin:0;color:var(--sub);font-size:14px}
+.panel textarea{width:100%;min-height:180px;background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.stat{background:#0f1a2f;border:1px solid var(--line);border-radius:10px;padding:12px}
-.stat b{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:var(--mute);font-weight:500}
-.stat span{font-family:var(--f-mono);font-size:22px;font-weight:600}
-.mini{background:none;border:1px solid var(--line);border-radius:6px;padding:3px 8px;font-size:12px;color:var(--mute)}
-.mini.danger{color:var(--no);border-color:#5a2a33}
-.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#2a1520;border:1px solid #5a2a33;border-radius:10px;padding:10px 12px;font-size:13.5px}
-.badge-sample{display:inline-block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;color:var(--sign-ink);background:var(--sign);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.stat{background:var(--soft);border-radius:12px;padding:12px 14px}
+.stat b{display:block;font-size:12.5px;color:var(--sub);font-weight:500}
+.stat span{font-size:22px;font-weight:700}
+.mini{background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:12.5px;color:var(--sub)}
+.mini.danger{color:var(--no);border-color:#f2c9c9}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--no-soft);border:1px solid #f2c9c9;border-radius:12px;padding:10px 12px;font-size:14px}
+.badge-sample{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--coral);border-radius:6px;padding:1px 7px;margin-left:6px;vertical-align:middle}
 
-/* guard overlay */
-#guard{position:fixed;inset:0;background:rgba(7,12,22,.97);display:grid;place-items:center;z-index:50;padding:24px;text-align:center}
-#guard h2{font-family:var(--f-display);font-weight:400;color:var(--sign);font-size:28px;margin:0 0 8px}
+#guard{position:fixed;inset:0;background:rgba(242,245,248,.97);display:grid;place-items:center;z-index:50;padding:24px;text-align:center}
+#guard h2{color:var(--coral);font-size:24px;margin:0 0 8px}
 @media (prefers-reduced-motion:reduce){.plane,.trail{transition:none}}
 </style>
 </head>
 <body>
 
 
-<div class="wrap">
-  <header class="bar">
+<header class="top">
+  <div class="wrap bar">
     <button class="brand" id="brandBtn" type="button" aria-label="첫 화면으로">
-      <span class="brand-mark">ML 2026</span><span class="brand-name">Tourism Industry Terminology Quiz</span>
+      <span class="brand-mark" aria-hidden="true">✈</span><span class="brand-name">Tourism Industry Terminology Quiz</span>
     </button>
-    <span class="bar-meta" id="barMeta">GATE 30 · ON TIME</span>
-  </header>
+    <span class="bar-meta" id="barMeta">30문항 · 약 5분</span>
+  </div>
+</header>
 
-  <!-- HOME -->
-  <main id="home">
-    <section class="hero">
-      <div class="eyebrow">MICE · 호텔 · 여행 실무 용어 · 30 Questions</div>
-      <h1>내 순위는 얼마나 될까?<br><em>지금 바로 퀴즈에 도전하세요!</em></h1>
-      <p>회의장에서, 호텔 계약서에서, 공항 카운터에서 매일 쓰는 그 말들. 정말 다 알고 쓰셨나요? 설명 보고 용어 맞히기 20문제, 용어 보고 뜻 맞히기 10문제. 동점이면 더 빨리 착륙한 사람이 이깁니다.</p>
-      <div class="chips"><span class="chip">객관식 4지선다</span><span class="chip">매 회차 무작위 출제</span><span class="chip">정답은 최종 채점 때 공개</span><span class="chip" id="bankChip">문제은행 불러오는 중</span></div>
-    </section>
-
-    <div class="grid">
+<!-- HOME -->
+<main id="home">
+  <section class="hero">
+    <div class="wrap hero-in">
+      <div>
+        <div id="challengeSlot"></div>
+        <span class="kicker">MICE · 호텔 · 항공 · 여행 실무 용어</span>
+        <h1>내 순위는 얼마나 될까?<br><em>지금 바로 퀴즈에 도전하세요!</em></h1>
+        <p class="lead">회의장에서, 호텔 계약서에서, 공항 카운터에서 매일 쓰는 그 말들. 정말 다 알고 쓰셨나요? 설명 보고 용어 맞히기 20문제, 용어 보고 뜻 맞히기 10문제. 동점이면 더 빨리 끝낸 사람이 이깁니다.</p>
+        <div class="chips"><span class="chip">4지선다 30문제</span><span class="chip">매번 새로운 출제</span><span class="chip">정답은 마지막에 공개</span><span class="chip" id="bankChip">문제 불러오는 중</span></div>
+      </div>
       <form class="pass" id="startForm" autocomplete="off" novalidate>
-        <div class="pass-head"><span>BOARDING PASS</span><span>ML → QUIZ</span></div>
+        <div class="pass-head"><span>탑승권</span><small>Boarding Pass</small></div>
         <div class="pass-body">
-          <div class="field"><label for="fTeam">회사명 · Company</label><input id="fTeam" maxlength="30" placeholder="예: 대한투어" required></div>
-          <div class="field"><label for="fNick">닉네임 · Passenger</label><input id="fNick" maxlength="20" placeholder="랭킹에 표시될 이름" required></div>
+          <div class="field"><label for="fTeam">회사명</label><input id="fTeam" maxlength="30" placeholder="예: 대한투어" required></div>
+          <div class="field"><label for="fNick">닉네임</label><input id="fNick" maxlength="20" placeholder="랭킹에 표시될 이름" required></div>
           <div class="row2">
-            <div class="field"><label for="fPhone">전화번호 끝 4자리</label><input id="fPhone" inputmode="numeric" maxlength="4" placeholder="선택" pattern="\d{4}"><small>동명이인 구분용 · 랭킹에 표시</small></div>
-            <div class="field"><label>Seat</label><input value="30Q" disabled aria-label="문항 수 30"></div>
+            <div class="field"><label for="fPhone">전화번호 끝 4자리 <span style="font-weight:400">(선택)</span></label><input id="fPhone" inputmode="numeric" maxlength="4" placeholder="1234" pattern="\d{4}"><small>동명이인 구분용</small></div>
+            <div class="seat"><b>좌석</b><span>30문항석</span></div>
           </div>
           <p class="err" id="formErr" role="alert"></p>
-          <div class="perf"></div>
-          <button class="btn btn-go" id="startBtn" type="submit">탑승하기 · 퀴즈 시작 ✈️</button>
-          <p class="notice">풀이 중 새로고침, 뒤로가기, 창 닫기를 하면 응시 정보와 진행 상황이 초기화됩니다.</p>
+          <div class="tear"></div>
+          <button class="btn btn-go" id="startBtn" type="submit">탑승하고 퀴즈 시작하기</button>
+          <p class="notice">풀이 중 새로고침, 뒤로가기, 창 닫기를 하면 진행 상황이 초기화됩니다.</p>
         </div>
       </form>
+    </div>
+    <span class="photo-credit">Photo · <a href="https://unsplash.com/photos/Z_KQy0Qd3ag" target="_blank" rel="noopener">Samuel S / Unsplash</a></span>
+  </section>
 
-      <section class="board" aria-labelledby="rkTitle">
-        <div class="board-head"><h2 id="rkTitle">누적 랭킹 · DEPARTURES</h2><span id="rkCount">—</span></div>
-        <div class="board-scroll" id="homeBoard"><div class="empty">랭킹을 불러오는 중입니다…</div></div>
-      </section>
-    </div>
-  </main>
+  <div class="wrap section">
+    <section class="card" aria-labelledby="rkTitle">
+      <div class="sec-head"><h2 id="rkTitle">🏆 누적 랭킹</h2><span id="rkCount">—</span></div>
+      <div class="board-scroll" id="homeBoard"><div class="empty">랭킹을 불러오는 중입니다…</div></div>
+    </section>
+  </div>
+</main>
 
-  <!-- QUIZ -->
-  <main id="quiz" hidden>
-    <div class="q-top">
-      <div class="q-count">QUESTION <b id="qNo">1</b> / <span id="qTotal">30</span></div>
-      <div class="timer" id="timer" aria-live="off">00:00</div>
+<!-- QUIZ -->
+<main id="quiz" hidden>
+  <div class="q-head">
+    <div class="wrap">
+      <div class="q-top">
+        <div class="q-count"><b id="qNo">1</b> / <span id="qTotal">30</span> 문항</div>
+        <div class="timer" id="timer" aria-live="off">00:00</div>
+      </div>
+      <div class="flight" aria-hidden="true">
+        <span class="lbl l1">출발</span><span class="lbl l2">도착</span>
+        <span class="cloud c1"></span><span class="cloud c2"></span><span class="cloud c3"></span>
+        <span class="pt flag">🚩</span>
+        <span class="pt globe">🌏</span>
+        <span class="pt terminal">🏢</span>
+        <div class="runway"></div>
+        <div class="trail" id="trail"></div>
+        <div class="plane" id="plane">✈️</div>
+      </div>
     </div>
-    <div class="flight" aria-hidden="true">
-      <span class="slabel">DEPARTURE</span><span class="tlabel">ARRIVAL · TERMINAL</span>
-      <span class="pt flag">🚩</span>
-      <span class="pt globe">🌏</span>
-      <span class="pt terminal">🏢</span>
-      <div class="runway"></div>
-      <div class="trail" id="trail"></div>
-      <div class="plane" id="plane">✈️</div>
-    </div>
-    <article class="qcard" id="qcard">
-      <div class="qtype"><span class="tag" id="qTag">용어 찾기</span></div>
+  </div>
+  <div class="wrap">
+    <article class="card qcard" id="qcard">
+      <div class="qmeta"><span class="tag" id="qTag">용어 찾기</span><span id="qTags"></span></div>
       <p class="qask" id="qAsk"></p>
       <p class="qprompt" id="qPrompt"></p>
-      <div class="qex" id="qEx" hidden><b>EXAMPLE</b><span id="qExText"></span></div>
+      <div class="qex" id="qEx" hidden><b>예문</b><span id="qExText"></span></div>
       <div class="choices" id="choices" role="radiogroup"></div>
       <div class="qnav">
         <button class="btn btn-ghost" id="prevBtn" type="button">← 이전</button>
-        <button class="btn btn-sign" id="nextBtn" type="button">다음 →</button>
+        <button class="btn btn-main" id="nextBtn" type="button">다음 →</button>
       </div>
       <p class="hint" id="qHint"></p>
     </article>
     <div class="dots" id="dots" aria-label="문항 바로가기"></div>
-  </main>
+  </div>
+</main>
 
-  <!-- RESULT -->
-  <main id="result" hidden>
+<!-- RESULT -->
+<main id="result" hidden>
+  <div class="wrap">
     <div class="steps"><span class="step on">① 채점 결과</span><span class="step" id="st2">② 랭킹 게시</span><span class="step" id="st3">③ 도전장 보내기</span></div>
-    <section class="arrived">
-      <div>
-        <h2 id="rTitle">착륙 완료! 🛬</h2>
+    <section class="card arrived">
+      <div class="arrived-top"><h2 id="rTitle">착륙 완료!</h2></div>
+      <div class="arrived-body">
         <div class="meta">
-          <div><b>PASSENGER</b><span id="rNick"></span></div>
-          <div><b>COMPANY</b><span id="rTeam"></span></div>
-          <div><b>FLIGHT TIME</b><span class="mono" id="rTime"></span></div>
-          <div><b>ARRIVED</b><span class="mono" id="rStamp"></span></div>
+          <div><b>닉네임</b><span id="rNick"></span></div>
+          <div><b>회사명</b><span id="rTeam"></span></div>
+          <div><b>소요 시간</b><span id="rTime"></span></div>
+          <div><b>도착 시각</b><span id="rStamp"></span></div>
         </div>
+        <div class="scorebox"><div class="score"><span id="rScore">0</span><small> / <span id="rTotal">30</span></small></div><span class="rankpill" id="rRank">랭킹 게시 중…</span></div>
       </div>
-      <div class="scorebox"><div class="score"><span id="rScore">0</span><small> / <span id="rTotal">30</span></small></div><span class="rankpill" id="rRank">랭킹 게시 중…</span></div>
     </section>
 
     <h3 class="sec-title">랭킹 게시 <span id="rPostNote">기록을 게시하고 있습니다</span></h3>
-    <section class="board"><div class="board-scroll" id="resultBoard"><div class="empty">랭킹을 불러오는 중입니다…</div></div></section>
+    <section class="card"><div class="board-scroll" id="resultBoard"><div class="empty">랭킹을 불러오는 중입니다…</div></div></section>
 
-    <h3 class="sec-title">도전장 보내기 <span>동료에게 링크를 보내 승부를 겨뤄 보세요</span></h3>
-    <section class="share">
+    <h3 class="sec-title">도전장 보내기 <span>동료에게 보내고 승부를 겨뤄 보세요</span></h3>
+    <section class="card share">
       <textarea id="shareText" aria-label="도전장 문구"></textarea>
       <div class="acts">
-        <button class="btn btn-sign" id="copyBtn" type="button">📋 도전장 복사하기</button>
-        <button class="btn btn-ghost" id="rerollBtn" type="button">🎲 다른 도발 문구</button>
+        <button class="btn btn-main" id="copyBtn" type="button">도전장 복사하기</button>
+        <button class="btn btn-ghost" id="rerollBtn" type="button">다른 문구 보기</button>
       </div>
       <div class="toast" id="copyToast" role="status"></div>
     </section>
 
-    <h3 class="sec-title">정답 확인 <span id="rvSummary"></span></h3>
+    <h3 class="sec-title">정답 풀이 <span id="rvSummary"></span></h3>
     <div class="review" id="review"></div>
-    <div class="res-acts"><button class="btn btn-sign" id="againBtn" type="button">다시 도전하기 ✈️</button><button class="btn btn-ghost" id="homeBtn" type="button">첫 화면으로</button></div>
-  </main>
+    <div class="res-acts"><button class="btn btn-main" id="againBtn" type="button">다시 도전하기</button><button class="btn btn-ghost" id="homeBtn" type="button">첫 화면으로</button></div>
+  </div>
+</main>
 
-  <!-- ADMIN -->
-  <main id="admin" hidden>
+<!-- ADMIN -->
+<main id="admin" hidden>
+  <div class="wrap">
     <div class="tabs"><button class="tab on" data-tab="runs" type="button">응시 결과</button><button class="tab" data-tab="bank" type="button">문제은행</button></div>
-    <section class="panel" id="tabRuns">
+    <section class="card panel" id="tabRuns">
       <div class="stats" id="aStats"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <button class="btn btn-sign" id="csvBtn" type="button">CSV로 내려받기</button>
+        <button class="btn btn-main" id="csvBtn" type="button">CSV로 내려받기</button>
         <button class="btn btn-ghost" id="resetBtn" type="button">랭킹 전체 초기화</button>
         <span class="toast" id="aToast"></span>
       </div>
       <div id="resetConfirm" hidden class="confirm">모든 응시 기록을 삭제합니다. 되돌릴 수 없습니다. <button class="mini danger" id="resetYes" type="button">삭제</button><button class="mini" id="resetNo" type="button">취소</button></div>
-      <div class="board"><div class="board-scroll" id="adminBoard"></div></div>
+      <div class="card"><div class="board-scroll" id="adminBoard"></div></div>
     </section>
-    <section class="panel" id="tabBank" hidden>
-      <h3>문제은행 <span id="aBankInfo" class="mono" style="font-weight:500;color:var(--mute);font-size:13px"></span></h3>
-      <p>구글 시트에서 머리글 행을 포함해 표 전체를 선택(Ctrl+A) → 복사(Ctrl+C)한 뒤 아래에 붙여넣으세요. ‘단어(한글/영문)’, ‘단어 뜻’, ‘예문’ 열을 머리글 이름으로 자동 인식합니다. CSV 파일 내용도 됩니다.</p>
+    <section class="card panel" id="tabBank" hidden>
+      <h3>문제은행 <span id="aBankInfo" style="font-weight:400;color:var(--sub);font-size:13.5px"></span></h3>
+      <p>구글 시트에서 머리글 행을 포함해 표 전체를 선택(Ctrl+A) → 복사(Ctrl+C)한 뒤 아래에 붙여넣으세요. ‘단어’, ‘뜻’, ‘예문’, ‘분야’ 열을 머리글 이름으로 자동 인식합니다.</p>
       <textarea id="bankInput" placeholder="번호	단어 (한글/영문)	단어 뜻	예문"></textarea>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost" id="parseBtn" type="button">미리보기</button><button class="btn btn-sign" id="saveBankBtn" type="button" disabled>문제은행에 적용</button></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost" id="parseBtn" type="button">미리보기</button><button class="btn btn-main" id="saveBankBtn" type="button" disabled>문제은행에 적용</button></div>
       <p id="parseInfo"></p>
-      <div class="board"><div class="board-scroll" id="bankPreview"></div></div>
+      <div class="card"><div class="board-scroll" id="bankPreview"></div></div>
     </section>
     <div class="res-acts"><button class="btn btn-ghost" id="adminBack" type="button">← 첫 화면으로</button></div>
-  </main>
+  </div>
+</main>
 
-  <footer>
-    <div class="flaps" id="flaps" aria-label="Copyright MICELINK 2026"></div>
-    <div class="foot-sub">ALL RIGHTS RESERVED · TOURISM INDUSTRY TERMINOLOGY QUIZ</div>
-    <button class="admin-link" id="adminLink" type="button" hidden>관리자</button>
-  </footer>
-</div>
-<div id="guard" hidden><div><h2>잠깐! 개발자 도구가 감지되었습니다</h2><p>공정한 경쟁을 위해 진행 중인 퀴즈가 초기화되었습니다.<br>개발자 도구를 닫고 다시 탑승해 주세요.</p><button class="btn btn-sign" id="guardOk" type="button" style="margin-top:14px">확인</button></div></div>
+<footer class="wrap">
+  <div class="stamp" aria-label="Copyright MICELINK 2026"><span><span class="t1">✈ COPYRIGHT ✈</span><span class="t2">MICELINK 2026</span></span></div>
+  <div class="foot-sub">Tourism Industry Terminology Quiz</div>
+  <button class="admin-link" id="adminLink" type="button" hidden>관리자</button>
+</footer>
+<div id="guard" hidden><div><h2>잠깐! 개발자 도구가 감지되었어요</h2><p>공정한 경쟁을 위해 진행 중인 퀴즈가 초기화되었습니다.<br>개발자 도구를 닫고 다시 탑승해 주세요.</p><button class="btn btn-main" id="guardOk" type="button" style="margin-top:14px">확인</button></div></div>
 
 <script>
 /* ===== MICELINK Quiz Engine (shared by browser & Apps Script) ===== */
@@ -416,19 +464,57 @@ var Engine = (function () {
   }
 
   /* "객실 블록 / Room Block", "Room Block(객실 블록)" -> {en, ko} */
-  function splitWord(s) {
-    s = clean(s);
-    var parts = s.split(/[\/|·,()\[\]\n]+/).map(clean).filter(Boolean);
+  /* "FOC (Free of Charge / 무임제공)" -> term "FOC", alts [Free of Charge], ko [무임제공]
+     "객실 할당 / Allotment" -> term "Allotment";  "Room Block(객실 블록)" -> term "Room Block" */
+  var LATIN_RUN = /[A-Za-z][A-Za-z0-9&'’.\- ]*[A-Za-z0-9.)]?/g;
+  function parseWord(raw) {
+    raw = clean(raw);
+    var m = raw.match(/^([^(（]*)[(（](.*)[)）]?\s*$/);
+    var head = clean(m ? m[1] : raw), inner = m ? clean(m[2].replace(/[)）]\s*$/, '')) : '';
     var en = [], ko = [];
-    parts.forEach(function (p) {
+    (head + '/' + inner).split(/[\/|,·]+/).map(clean).filter(Boolean).forEach(function (p) {
       if (HANGUL.test(p)) {
-        var latin = p.match(/[A-Za-z][A-Za-z0-9&'’.\- ]*[A-Za-z0-9.]/g);
-        var hangulOnly = clean(p.replace(/[A-Za-z][A-Za-z0-9&'’.\- ]*[A-Za-z0-9.]/g, ' '));
-        if (latin && latin.join('').length > 1) en.push(clean(latin.join(' ')));
-        if (hangulOnly) ko.push(hangulOnly);
+        var lat = p.match(LATIN_RUN);
+        if (lat) lat.map(clean).filter(function (x) { return x.length > 1; }).forEach(function (x) { en.push(x); });
+        var h = clean(p.replace(LATIN_RUN, ' '));
+        if (h) ko.push(h);
       } else if (/[A-Za-z]/.test(p)) en.push(p);
     });
-    return { en: en.join(' / '), ko: ko.join(', ') };
+    var term = head && !HANGUL.test(head) ? head : (en[0] || head || raw);
+    var alts = en.filter(function (x) { return x.toLowerCase() !== term.toLowerCase(); });
+    return { term: term, alts: alts, ko: ko };
+  }
+
+  /* 분야 해시태그 */
+  var TAGS = [
+    ['항공', /항공|비행|탑승|공항|좌석|운항|수하물|기내|발권|airline|flight|boarding|airport|baggage|\bseat|\bPNR\b|\bGDS\b|ticket|layover|stopover|codeshare/i],
+    ['호텔', /호텔|객실|투숙|숙박|체크인|체크아웃|프런트|프론트|하우스키핑|컨시어지|hotel|\broom|check-?in|check-?out|suite|front desk|concierge|turndown|allotment|rack rate/i],
+    ['MICE', /회의|컨벤션|전시|박람회|행사|이벤트|참가자|등록|부스|포상|세션|연사|통역|convention|exhibition|meeting|incentive|congress|conference|booth|delegate|\bPCO\b|\bDMC\b|venue|plenary|breakout|badge|hybrid/i],
+    ['여행', /여행|관광|투어|일정|패키지|가이드|비자|여권|지상비|tour|travel|itinerary|visa|package|\bFIT\b|land fee|optional/i],
+    ['식음료', /식음|연회|메뉴|뷔페|케이터링|음료|조식|식사|만찬|디너|\bF&B\b|banquet|catering|buffet|menu|dinner|cocktail/i],
+    ['요금·계약', /요금|비용|계약|정산|취소|환불|결제|무료|무상|무임|할인|수수료|위약|커미션|보증|\brate\b|\bfee\b|charge|commission|deposit|refund|contract|cancel|attrition|cut-?off|complimentary|\bFOC\b/i]
+  ];
+  function tagsOf(it) {
+    var out = [];
+    String(it.cat || '').split(/[#,\/|·\s]+/).map(clean).filter(Boolean).forEach(function (c) { if (out.indexOf(c) < 0) out.push(c); });
+    var hay = [it.term, it.full, it.meaning].join(' ');
+    var scored = TAGS.map(function (t) { var m = hay.match(new RegExp(t[1].source, 'gi')); return [t[0], m ? m.length : 0]; })
+      .filter(function (x) { return x[1] > 0; }).sort(function (a, b) { return b[1] - a[1]; });
+    scored.forEach(function (x) { if (out.length < 2 && out.indexOf(x[0]) < 0) out.push(x[0]); });
+    if (!out.length) out.push('실무용어');
+    return out.slice(0, 2);
+  }
+
+  /* 어떤 형태의 항목이든 공통 구조로 정리 */
+  function normItem(it) {
+    if (it.term && it.full && it.tags) return it;
+    var p = parseWord(it.word || it.en || '');
+    var ko = p.ko.concat(String(it.ko || '').split(/\s*[,\/·]\s*/).map(clean).filter(Boolean));
+    ko = ko.filter(function (x, i) { return ko.indexOf(x) === i; });
+    var full = it.word ? clean(it.word) : (clean(it.en) + (it.ko && clean(it.en).indexOf(it.ko) < 0 ? ' (' + clean(it.ko) + ')' : ''));
+    var n = { term: p.term, alts: p.alts, ko: ko, full: full, meaning: clean(it.meaning), example: clean(it.example), cat: clean(it.cat) };
+    n.tags = tagsOf(n);
+    return n;
   }
 
   /* rows -> bank items. Returns {items, mapping, headerRow, skipped} */
@@ -439,54 +525,40 @@ var Engine = (function () {
       if (cand.meaning != null && (cand.en != null || cand.word != null)) { hi = i; m = cand; break; }
     }
     if (hi < 0) {
-      // No header: assume [word(ko/en), meaning, example?] or [ko, en, meaning, example]
       var w = rows[0] ? rows[0].length : 0;
       m = w >= 4 ? { ko: 0, en: 1, meaning: 2, example: 3 } : { word: 0, meaning: 1, example: 2 };
     }
     var items = [], skipped = 0, seen = {};
     rows.slice(hi + 1).forEach(function (r) {
-      var en = m.en != null ? clean(r[m.en]) : '';
-      var ko = m.ko != null ? clean(r[m.ko]) : '';
-      if (m.word != null) {
-        var sw = splitWord(r[m.word]);
-        if (!en) en = sw.en;
-        if (!ko) ko = sw.ko;
-      }
-      if (en && HANGUL.test(en)) { var s2 = splitWord(en); en = s2.en; ko = ko || s2.ko; }
-      var meaning = m.meaning != null ? clean(r[m.meaning]) : '';
-      var example = m.example != null ? clean(r[m.example]) : '';
-      var cat = m.cat != null ? clean(r[m.cat]) : '';
-      var k = en.toLowerCase();
-      if (!en || !meaning || seen[k]) { skipped++; return; }
+      var src = {
+        word: m.word != null ? clean(r[m.word]) : '',
+        en: m.en != null ? clean(r[m.en]) : '',
+        ko: m.ko != null ? clean(r[m.ko]) : '',
+        meaning: m.meaning != null ? r[m.meaning] : '', example: m.example != null ? r[m.example] : '', cat: m.cat != null ? r[m.cat] : ''
+      };
+      if (!src.word && src.en) { src.word = src.en + (src.ko && src.en.indexOf(src.ko) < 0 ? ' (' + src.ko + ')' : ''); }
+      if (!src.word) { skipped++; return; }
+      var it = normItem(src);
+      var k = it.term.toLowerCase();
+      if (!/[A-Za-z]/.test(it.term) || !it.meaning || seen[k]) { skipped++; return; }
       seen[k] = 1;
-      items.push({ en: en, ko: ko, meaning: meaning, example: example, cat: cat });
+      items.push(it);
     });
     return { items: items, mapping: m, headerRow: hi >= 0 ? rows[hi] : null, skipped: skipped };
   }
 
-  /* Partially hide English spelling. Acronyms & short words stay whole. */
-  function maskEn(s) {
-    return s.split(/(\s+)/).map(function (tok) {
-      if (/^\s+$/.test(tok)) return tok;
-      var letters = tok.replace(/[^A-Za-z]/g, '');
-      if (letters.length <= 3 || /^[A-Z0-9&.\-\/]+$/.test(tok)) return tok;
-      var keep = Math.max(2, Math.ceil(letters.length * 0.5)), n = 0;
-      return tok.replace(/[A-Za-z]/g, function (ch) { n++; return n <= keep ? ch : '_'; });
-    }).join('');
-  }
+  function maskEn(s) { return s; }
 
   var BLANK = '(　　　)';
   function blankExample(ex, item) {
+    item = normItem(item);
     if (!ex) return '';
-    var targets = [];
-    item.en.split(/\s*\/\s*/).forEach(function (t) { if (t) targets.push(t); });
-    String(item.ko || '').split(/\s*[,\/·]\s*/).forEach(function (t) { if (t && t.length >= 1) targets.push(t); });
+    var targets = [item.term].concat(item.alts, item.ko).filter(Boolean);
     targets.sort(function (a, b) { return b.length - a.length; });
     var out = ex;
     targets.forEach(function (t) {
-      if (HANGUL.test(t)) {
-        out = out.replace(new RegExp(esc(t), 'g'), BLANK);
-      } else {
+      if (HANGUL.test(t)) out = out.replace(new RegExp(esc(t), 'g'), BLANK);
+      else {
         var body = esc(t).replace(/\\?[\s-]+/g, '[\\s\\-]*');
         out = out.replace(new RegExp('(^|[^A-Za-z])' + body + '(?:e?s|ed|d|ing)?(?![A-Za-z])', 'gi'), function (m0, pre) { return pre + BLANK; });
       }
@@ -494,34 +566,45 @@ var Engine = (function () {
     return out;
   }
 
+  /* 비슷한 업계 용어끼리 보기로 묶기: 같은 분야 태그 > 같은 형태(약어/단어 수) > 뜻의 공통 단어 */
+  function isAcr(t) { return /^[A-Z0-9&.\-\/]{2,6}$/.test(t); }
+  function words(s) { return String(s).split(/[\s,.·()\/]+/).filter(function (w) { return w.length >= 2; }); }
+  function similarity(a, b) {
+    var s = 0;
+    a.tags.forEach(function (t) { if (b.tags.indexOf(t) >= 0) s += 3; });
+    if (a.cat && a.cat === b.cat) s += 3;
+    if (isAcr(a.term) === isAcr(b.term)) s += 1.5;
+    if (a.term.split(' ').length === b.term.split(' ').length) s += 0.5;
+    var wa = words(a.meaning), wb = words(b.meaning);
+    wa.forEach(function (w) { if (wb.indexOf(w) >= 0) s += 0.6; });
+    return s + Math.random() * 1.2;
+  }
   function pickOthers(bank, item, n, keyFn) {
-    var own = keyFn(item), used = {}; used[own] = 1;
-    var same = shuffle(bank.filter(function (b) { return item.cat && b.cat === item.cat; }));
-    var rest = shuffle(bank.slice());
-    var out = [];
-    same.concat(rest).forEach(function (b) {
-      var k = keyFn(b);
-      if (out.length < n && !used[k]) { used[k] = 1; out.push(b); }
-    });
+    var used = {}; used[keyFn(item)] = 1;
+    var ranked = bank.filter(function (b) { return b !== item; })
+      .map(function (b) { return [b, similarity(item, b)]; })
+      .sort(function (x, y) { return y[1] - x[1]; });
+    var pool = shuffle(ranked.slice(0, 7)).concat(ranked.slice(7)), out = [];
+    pool.forEach(function (x) { var k = keyFn(x[0]); if (out.length < n && !used[k]) { used[k] = 1; out.push(x[0]); } });
     return out;
   }
 
   /* Build one round: TOTAL questions, REVERSE of which show the word and ask the meaning. */
   function buildQuiz(bank, total, reverse) {
+    bank = bank.map(normItem);
     total = Math.min(total || 30, bank.length);
     reverse = Math.min(reverse == null ? 10 : reverse, total);
     var picked = shuffle(bank.slice()).slice(0, total);
     var qs = picked.map(function (it, i) {
       var isB = i >= total - reverse;
-      var keyFn = isB ? function (b) { return b.meaning.toLowerCase(); } : function (b) { return b.en.toLowerCase(); };
+      var keyFn = isB ? function (b) { return b.meaning.toLowerCase(); } : function (b) { return b.term.toLowerCase(); };
       var opts = shuffle([it].concat(pickOthers(bank, it, 3, keyFn)));
       var answer = opts.indexOf(it);
-      var choices;
-      if (isB) choices = opts.map(function (o) { return o.meaning; });
-      else choices = opts.map(function (o) { return o.en; }); // 영문 전체 표기 (마스킹 없음)
+      var choices = isB ? opts.map(function (o) { return o.meaning; }) : opts.map(function (o) { return o.term; });
       return {
-        pub: { type: isB ? 'B' : 'A', prompt: isB ? it.en : it.meaning, example: blankExample(it.example, it), choices: choices },
-        key: { answer: answer, en: it.en, ko: it.ko, meaning: it.meaning, example: it.example, full: isB ? choices : opts.map(function (o) { return o.en; }) }
+        pub: { type: isB ? 'B' : 'A', prompt: isB ? it.term : it.meaning, example: isB ? '' : blankExample(it.example, it), choices: choices, tags: it.tags },
+        key: { answer: answer, term: it.term, full: it.full, ko: it.ko.join(', '), meaning: it.meaning, example: it.example,
+               opts: opts.map(function (o) { return isB ? o.meaning : o.full; }) }
       };
     });
     shuffle(qs);
@@ -536,10 +619,11 @@ var Engine = (function () {
       if (ok) score++;
       var q = questions[i];
       return {
-        no: i + 1, type: q.type, ok: ok, prompt: q.prompt,
-        yours: a == null || a < 0 ? '(미응답)' : k.full[a],
-        correct: q.type === 'A' ? k.en : k.meaning,
-        en: k.en, ko: k.ko, meaning: k.meaning, example: k.example
+        no: i + 1, type: q.type, ok: ok, tags: q.tags || [],
+        prompt: q.type === 'B' ? k.full : q.prompt,
+        yours: a == null || a < 0 ? '(미응답)' : k.opts[a],
+        correct: q.type === 'A' ? k.full : k.meaning,
+        term: k.term, full: k.full, en: k.term, ko: k.ko, meaning: k.meaning, example: k.example
       };
     });
     return { score: score, total: key.length, review: review };
@@ -577,7 +661,7 @@ var Engine = (function () {
   return {
     parseTable: parseTable, rowsToBank: rowsToBank, maskEn: maskEn, blankExample: blankExample,
     buildQuiz: buildQuiz, grade: grade, sortRuns: sortRuns, stamp: stamp, dur: dur, clock: clock,
-    cleanProfile: cleanProfile, shuffle: shuffle
+    cleanProfile: cleanProfile, shuffle: shuffle, normItem: normItem, parseWord: parseWord
   };
 })();
 
@@ -633,8 +717,6 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){retur
 
 var S={screen:'home',quiz:null,idx:0,answers:[],t0:0,tick:null,profile:null,result:null,runs:[],canAdmin:false,myRunId:null};
 
-/* ---------- copyright flaps ---------- */
-(function(){$('flaps').innerHTML='COPYRIGHT MICELINK 2026'.split(' ').map(function(w){return '<span class="fw">'+w.split('').map(function(c){return '<i>'+c+'</i>'}).join('')+'</span>'}).join('');})();
 
 /* ---------- screens ---------- */
 function show(name){S.screen=name;['home','quiz','result','admin'].forEach(function(n){$(n).hidden=n!==name});window.scrollTo(0,0);}
@@ -643,17 +725,17 @@ function show(name){S.screen=name;['home','quiz','result','admin'].forEach(funct
 function medal(i){return i===0?'🥇':i===1?'🥈':i===2?'🥉':''}
 function rankTable(runs,opts){
   opts=opts||{};
-  if(!runs.length) return '<div class="empty">아직 착륙한 승객이 없습니다. 첫 번째 기록의 주인공이 되어 보세요!</div>';
+  if(!runs.length) return '<div class="empty">아직 기록이 없어요. 첫 번째 주인공이 되어 보세요! ✈️</div>';
   var rows=runs.map(function(r,i){
     var me=opts.me&&r.id===opts.me;
-    return '<tr class="'+(me?'me ':'')+(i===0?'top1':'')+'"><td class="pos">'+(i+1)+'</td><td class="who"><span class="medal">'+medal(i)+'</span>'+esc(r.nick)+'</td><td>'+esc(r.team)+'</td><td class="num flap">'+r.score+' / '+r.total+'</td><td class="num flap">'+Engine.dur(r.ms)+'</td><td class="flap">'+(r.phone4?'*'+esc(r.phone4):'—')+'</td><td class="flap">'+Engine.stamp(r.at)+'</td>'+(opts.admin?'<td><button class="mini danger" data-del="'+esc(r.id)+'" type="button">삭제</button></td>':'')+'</tr>';
+    return '<tr class="'+(me?'me ':'')+(i<3?'top3':'')+'"><td class="pos">'+(i+1)+'위</td><td class="who"><span class="medal">'+medal(i)+'</span>'+esc(r.nick)+'</td><td>'+esc(r.team)+'</td><td class="num sc"><b>'+r.score+'</b> / '+r.total+'</td><td class="num">'+Engine.dur(r.ms)+'</td><td>'+(r.phone4?'*'+esc(r.phone4):'—')+'</td>'+(opts.admin?'<td>'+Engine.stamp(r.at)+'</td><td><button class="mini danger" data-del="'+esc(r.id)+'" type="button">삭제</button></td>':'')+'</tr>';
   }).join('');
-  return '<table class="rank"><thead><tr><th>순위</th><th>닉네임</th><th>회사명</th><th class="num">맞은 문항</th><th class="num">소요 시간</th><th>전화 끝4</th><th>일시</th>'+(opts.admin?'<th></th>':'')+'</tr></thead><tbody>'+rows+'</tbody></table>';
+  return '<table class="rank"><thead><tr><th>순위</th><th>닉네임</th><th>회사명</th><th class="num">맞은 문항</th><th class="num">소요 시간</th><th>전화 끝4</th>'+(opts.admin?'<th>일시</th><th></th>':'')+'</tr></thead><tbody>'+rows+'</tbody></table>';
 }
 function renderBoards(){
   var runs=S.runs;
   $('homeBoard').innerHTML=rankTable(runs);
-  $('rkCount').textContent='총 '+runs.length+'명 착륙';
+  $('rkCount').textContent='지금까지 '+runs.length+'명 도전';
   if(S.screen==='result'&&S.myRunId){
     $('resultBoard').innerHTML=rankTable(runs,{me:S.myRunId});
     var pos=runs.findIndex(function(r){return r.id===S.myRunId});
@@ -679,7 +761,7 @@ $('startForm').addEventListener('submit',function(e){
     S.t0=Date.now();clearInterval(S.tick);S.tick=setInterval(tick,250);
     buildDots();show('quiz');renderQ();guardOn();
   }).catch(function(err){$('formErr').textContent=(err&&err.message)||'퀴즈를 시작하지 못했습니다. 잠시 후 다시 시도해 주세요.';})
-  .then(function(){busy=false;$('startBtn').disabled=false;$('startBtn').textContent='탑승하기 · 퀴즈 시작 ✈️';});
+  .then(function(){busy=false;$('startBtn').disabled=false;$('startBtn').textContent='탑승하고 퀴즈 시작하기';});
 });
 function tick(){ $('timer').textContent=Engine.clock(Date.now()-S.t0); }
 
@@ -695,9 +777,10 @@ function renderQ(){
   $('qNo').textContent=i+1;
   var isB=q.type==='B';
   $('qTag').textContent=isB?'뜻 찾기':'용어 찾기';$('qTag').className='tag'+(isB?' rev':'');
+  $('qTags').innerHTML=(q.tags||[]).map(function(t){return '<span class="hash">#'+esc(t)+'</span>'}).join(' ');
   $('qAsk').textContent=isB?'다음 용어의 의미로 알맞은 것은?':'다음 설명에 해당하는 용어는?';
   $('qPrompt').textContent=q.prompt;$('qPrompt').className='qprompt'+(isB?' word':'');
-  $('qEx').hidden=!q.example;$('qExText').textContent=q.example||'';
+  $('qEx').hidden=isB||!q.example;$('qExText').textContent=isB?'':(q.example||'');
   $('choices').innerHTML=q.choices.map(function(c,k){
     var sel=S.answers[i]===k;
     return '<button type="button" role="radio" aria-checked="'+sel+'" class="choice'+(isB?'':' en')+(sel?' sel':'')+'" data-k="'+k+'"><span class="k">'+KEYS[k]+'</span><span class="t">'+esc(c)+'</span></button>';
@@ -705,7 +788,7 @@ function renderQ(){
   $('prevBtn').disabled=i===0;$('prevBtn').style.visibility=i===0?'hidden':'visible';
   var last=i===n-1;
   var left=S.answers.filter(function(a){return a<0}).length;
-  $('nextBtn').textContent=last?'제출하고 채점하기 🛬':'다음 →';
+  $('nextBtn').textContent=last?'제출하고 채점하기':'다음 →';
   $('nextBtn').disabled=last&&left>0;
   $('qHint').textContent=last&&left>0?'아직 풀지 않은 문항이 '+left+'개 있습니다. 아래 번호를 눌러 이동하세요.':'';
   // plane: 1번 = 출발 깃발, 마지막 문항 = 터미널 도착
@@ -751,7 +834,7 @@ function submit(){
     showResult(res);
   }).catch(function(err){
     $('qHint').textContent=(err&&err.message)||'채점 결과를 저장하지 못했습니다. 다시 눌러 주세요.';
-    $('nextBtn').disabled=false;$('nextBtn').textContent='제출하고 채점하기 🛬';
+    $('nextBtn').disabled=false;$('nextBtn').textContent='제출하고 채점하기';
   });
 }
 function showResult(res){
@@ -760,11 +843,17 @@ function showResult(res){
   $('rNick').textContent=r.nick;$('rTeam').textContent=r.team;$('rTime').textContent=Engine.dur(r.ms);$('rStamp').textContent=Engine.stamp(r.at);
   $('rScore').textContent=r.score;$('rTotal').textContent=r.total;
   var pct=r.score/r.total;
-  $('rTitle').textContent=pct>=0.9?'퍼펙트 랜딩! 🛬':pct>=0.7?'안정적인 착륙! 🛬':pct>=0.5?'무사히 착륙했습니다 🛬':'비상 착륙… 그래도 도착! 🛬';
+  $('rTitle').textContent=pct>=0.9?'퍼펙트 랜딩! 업계 고수 인정 🛬':pct>=0.7?'안정적인 착륙이에요! 🛬':pct>=0.5?'무사히 도착했어요 🛬':'비상 착륙… 그래도 도착! 다음엔 더 잘할 거예요 🛬';
   $('rvSummary').textContent='정답 '+r.score+' · 오답 '+(r.total-r.score);
   $('review').innerHTML=res.review.map(function(v){
-    var right=v.type==='A'?esc(v.en)+(v.ko?' <span style="color:var(--mute)">('+esc(v.ko)+')</span>':''):esc(v.meaning);
-    return '<div class="rv '+(v.ok?'ok':'no')+'"><div class="mark">'+(v.ok?'정답':'오답')+'</div><div style="min-width:0"><p class="p">'+v.no+'. '+esc(v.prompt)+'</p><p class="a">내 답: <span class="y">'+esc(v.yours)+'</span>'+(v.ok?'':'  ·  정답: <span class="c">'+right+'</span>')+(v.ok&&v.type==='A'&&v.ko?'  ·  '+esc(v.en)+' ('+esc(v.ko)+')':'')+'</p></div></div>';
+    var tags=(v.tags||[]).map(function(t){return '<span class="hash">#'+esc(t)+'</span>'}).join('');
+    var head=v.type==='B'?'<span style="color:var(--sub);font-weight:500">뜻 찾기 · </span>'+esc(v.full):'<span style="color:var(--sub);font-weight:500">용어 찾기 · </span>'+esc(v.prompt);
+    var right=v.type==='A'?esc(v.full):esc(v.meaning);
+    var lines='<span>내 답: <span class="y">'+esc(v.yours)+'</span></span>'+(v.ok?'':'<span>정답: <span class="c">'+right+'</span></span>');
+    if(v.type==='A'&&v.ok) lines+='';
+    var extra=v.type==='B'?'':'';
+    var ex=v.example?'<div class="ex">예문 · '+esc(v.example)+'</div>':'';
+    return '<div class="card rv '+(v.ok?'ok':'no')+'"><div class="mark">'+(v.ok?'정답':'오답')+'</div><div style="min-width:0"><p class="p">'+v.no+'. '+head+'</p><div class="tags">'+tags+'</div><p class="a">'+lines+'</p>'+(v.type==='B'?'<div class="ex">'+esc(v.full)+' = '+esc(v.meaning)+'</div>':'')+ex+'</div></div>';
   }).join('');
   $('st2').className='step on';$('st3').className='step on';
   if(res.posted){$('rPostNote').textContent='누적 랭킹에 기록이 게시되었습니다';}
@@ -825,8 +914,8 @@ document.addEventListener('keydown',function(e){
 /* ---------- shared challenge link ---------- */
 function showChallenge(run){
   var box=document.createElement('section');box.className='challenge';
-  box.innerHTML='<div class="eyebrow" style="color:var(--sign-ink)">INCOMING CHALLENGE</div><h2>'+esc(run.team)+' '+esc(run.nick)+'님이 도전장을 보냈습니다! 🧤</h2><p class="cstat">'+run.total+'문제 중 '+run.score+'개 정답 · '+Engine.dur(run.ms)+' · '+Engine.stamp(run.at)+'</p><p>이 기록을 넘을 자신이 있다면 아래 탑승권을 작성하고 바로 이륙하세요. 정답 수가 같으면 더 빨리 착륙한 사람이 이깁니다.</p>';
-  var hero=document.querySelector('#home .hero');hero.parentNode.insertBefore(box,hero.nextSibling);
+  box.innerHTML='<div class="eyebrow">도전장이 도착했어요 🧤</div><h2>'+esc(run.team)+' '+esc(run.nick)+'님이 당신에게 도전장을 보냈습니다!</h2><p class="cstat">'+run.total+'문제 중 '+run.score+'개 정답 · '+Engine.dur(run.ms)+' · '+Engine.stamp(run.at)+'</p><p>이 기록을 넘을 자신이 있다면 아래 탑승권을 작성하고 바로 이륙하세요. 정답 수가 같으면 더 빨리 착륙한 사람이 이깁니다.</p>';
+  $('challengeSlot').appendChild(box);
 }
 API.readShareToken().then(function(tok){if(!tok)return;return API.getRun(tok).then(function(run){if(run)showChallenge(run);});}).catch(function(){});
 
@@ -867,7 +956,7 @@ $('parseBtn').addEventListener('click',function(){
   var m=res.mapping,h=res.headerRow;
   function nm(i){return i==null?'—':(h?'"'+esc(h[i])+'"':(i+1)+'번째 열');}
   $('parseInfo').innerHTML='인식된 용어 <b>'+res.items.length+'</b>개 (건너뛴 행 '+res.skipped+'개) · 영문: '+nm(m.en!=null?m.en:m.word)+' · 한글: '+nm(m.ko!=null?m.ko:m.word)+' · 뜻: '+nm(m.meaning)+' · 예문: '+nm(m.example)+(res.items.length<30?'<br><span style="color:var(--no)">한 회차 30문제를 내려면 용어가 30개 이상 필요합니다. 부족하면 있는 만큼만 출제됩니다.</span>':'');
-  $('bankPreview').innerHTML=res.items.length?'<table class="rank"><thead><tr><th>#</th><th>영문</th><th>한글</th><th>뜻</th><th>예문 (빈칸 처리)</th></tr></thead><tbody>'+res.items.slice(0,50).map(function(it,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(it.en)+'</td><td>'+esc(it.ko)+'</td><td style="white-space:normal;min-width:220px">'+esc(it.meaning)+'</td><td style="white-space:normal;min-width:220px">'+esc(Engine.blankExample(it.example,it))+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty">인식된 용어가 없습니다. 머리글 행을 포함해 복사했는지 확인해 주세요.</div>';
+  $('bankPreview').innerHTML=res.items.length?'<table class="rank"><thead><tr><th>#</th><th>문제에 보일 용어</th><th>한글</th><th>뜻</th><th>예문 (빈칸 처리)</th></tr></thead><tbody>'+res.items.slice(0,50).map(function(it,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(it.term)+'<br><span style="color:var(--sub);font-size:12px">'+esc(it.full)+' · #'+esc(it.tags.join(' #'))+'</span></td><td>'+esc(it.ko.join(', '))+'</td><td style="white-space:normal;min-width:220px">'+esc(it.meaning)+'</td><td style="white-space:normal;min-width:220px">'+esc(Engine.blankExample(it.example,it))+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty">인식된 용어가 없습니다. 머리글 행을 포함해 복사했는지 확인해 주세요.</div>';
   $('saveBankBtn').disabled=res.items.length<4;
 });
 $('saveBankBtn').addEventListener('click',function(){
