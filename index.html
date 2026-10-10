@@ -4,8 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <script>
-/* ▼▼▼ 여기 한 줄만 바꾸세요: 따옴표 안에 구글 앱스 스크립트 웹 앱 주소(…/exec)를 붙여넣기 ▼▼▼ */
-window.QUIZ_CONFIG = { API_URL: 'https://script.google.com/macros/s/AKfycbxTg-UwXq5IA0wzwVBRTcif3M8H1xzSCMNolW7BlBN4ye9_8ByXCZ7A2FIVoLJxaI8/exec' };
+/* =================== 운영 설정 (여기만 고치면 됩니다) =================== */
+window.QUIZ_CONFIG = {
+  /* ① 서버 주소: 구글 앱스 스크립트 웹 앱 주소(…/exec) */
+  API_URL: 'https://script.google.com/macros/s/AKfycbxTg-UwXq5IA0wzwVBRTcif3M8H1xzSCMNolW7BlBN4ye9_8ByXCZ7A2FIVoLJxaI8/exec',
+
+  /* ② 회사 로고: 저장소에 logo.png 를 올리면 좌측 상단에 자동 표시됩니다.
+        (권장: 배경 투명 PNG, 높이 80px 이상. 파일이 없으면 기본 제목이 보입니다) */
+  LOGO: 'logo.png',
+
+  /* ③ 하단 롤링 광고 배너 (자동으로 넘어감, 마우스를 올리면 멈춤)
+        img    : PC용 이미지   (권장 1080×200, 비율 5.4:1)
+        mobile : 모바일용 이미지 (권장 720×240, 비율 3:1 / 없으면 PC용을 그대로 축소)
+        link   : 배너 클릭 시 새 창으로 열 주소 (https:// 로 시작, 비워두면 클릭 안 됨) */
+  BANNERS: [
+    { img: 'banner1.png', mobile: 'banner1_m.png', link: '', alt: '광고 배너 1' },
+    { img: 'banner2.png', mobile: 'banner2_m.png', link: '', alt: '광고 배너 2' },
+    { img: 'banner3.png', mobile: 'banner3_m.png', link: '', alt: '광고 배너 3' }
+  ],
+  BANNER_SECONDS: 4.5   /* 배너가 넘어가는 간격(초): 4 ~ 5 권장 */
+};
 </script>
 <!-- 공유 미리보기(카카오톡·슬랙·페이스북 등) -->
 <meta name="description" content="내 순위는 얼마나 될까? MICE·호텔·여행 실무 용어 30문제, 정답 수와 속도로 순위가 갈립니다. 지금 바로 도전하세요!">
@@ -57,6 +75,9 @@ body,h1,h2,h3,p,td,.choice .t{word-break:keep-all;overflow-wrap:anywhere}
 .top{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
 .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;text-align:left}
+.brand-fb{display:flex;align-items:center;gap:10px}
+.brand-logo{display:block;height:40px;width:auto;max-width:220px;object-fit:contain}
+@media (max-width:520px){.brand-logo{height:32px;max-width:170px}}
 .brand-mark{width:34px;height:34px;border-radius:10px;background:var(--coral);color:#fff;display:grid;place-items:center;font-size:17px;flex:none}
 .brand-name{font-weight:700;font-size:clamp(14px,3.4vw,17px);letter-spacing:-.01em;line-height:1.25}
 .bar-meta{font-size:13px;color:var(--sub);white-space:nowrap}
@@ -121,14 +142,30 @@ table.rank{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
 .rank tr.me .who::after{content:"나";margin-left:8px;font-size:11.5px;font-weight:700;color:#fff;background:var(--coral);padding:1px 7px;border-radius:999px;vertical-align:2px}
 .empty{padding:34px 16px;color:var(--sub);text-align:center}
 
-/* footer + stamp */
-footer{padding-block:40px 28px;display:grid;justify-items:center;gap:12px}
-.stamp{display:inline-flex;align-items:center;gap:12px;padding:10px 20px;border:2.5px solid var(--coral);border-radius:14px;color:var(--coral);transform:rotate(-3deg);box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4.5px var(--coral);background:#fff}
-.stamp .plane{font-size:22px;line-height:1;width:26px;flex:none;text-align:center}
-.stamp .t1{font-size:10.5px;letter-spacing:.28em;font-weight:700;display:block;text-align:center}
-.stamp .t2{font-size:19px;letter-spacing:.12em;font-weight:900;display:block;line-height:1.2}
-.foot-sub{font-size:12px;color:var(--sub)}
-.admin-link{background:none;border:0;color:var(--sub);font-size:12.5px;text-decoration:underline;padding:4px}
+/* rolling ad banners */
+.ads-wrap{padding-block:28px 8px}
+.ads{position:relative;border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.ad-stage{position:relative;aspect-ratio:1080/200;width:100%;max-width:100%}
+.ads.m .ad-stage{aspect-ratio:720/240}
+.ad{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s linear .6s;display:block}
+.ad.on{opacity:1;visibility:visible;transition:opacity .6s ease}
+.ad img{display:block;width:100%;height:100%;object-fit:cover}
+.ad .ph{width:100%;height:100%;display:grid;place-items:center;text-align:center;padding:12px;background:repeating-linear-gradient(135deg,var(--soft) 0 14px,#eef2f6 14px 28px);color:var(--sub);font-size:14px;line-height:1.5}
+.ad .ph b{display:block;color:var(--ink);font-size:16px}
+.ad-dots{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.ad-dots button{pointer-events:auto;width:8px;height:8px;border-radius:999px;border:0;padding:0;background:rgba(255,255,255,.7);box-shadow:0 0 0 1px rgba(0,0,0,.15);transition:width .2s}
+.ad-dots button.on{width:22px;background:#fff}
+.ad-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.85);color:var(--ink);font-size:22px;line-height:1;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.15);opacity:0;transition:opacity .2s}
+.ad-nav.prev{left:10px}.ad-nav.next{right:10px}
+.ads:hover .ad-nav,.ad-nav:focus-visible{opacity:1}
+@media (hover:none){.ad-nav{display:none}}
+
+/* footer */
+.foot{margin-top:28px;background:#e8edf2;border-top:1px solid var(--line)}
+.foot-in{padding-block:22px 26px;display:grid;gap:4px;justify-items:center;text-align:center}
+.copy{margin:0;font-size:13.5px;color:var(--ink);font-weight:500}
+.foot-sub{margin:0;font-size:12.5px;color:var(--sub)}
+.admin-link{background:none;border:0;color:var(--sub);font-size:12.5px;text-decoration:underline;padding:0 0 0 8px}
 
 /* quiz */
 .q-head{background:linear-gradient(180deg,#dcecf9 0%,#eef5fb 70%,var(--page) 100%)}
@@ -254,7 +291,8 @@ footer{padding-block:40px 28px;display:grid;justify-items:center;gap:12px}
 <header class="top">
   <div class="wrap bar">
     <button class="brand" id="brandBtn" type="button" aria-label="첫 화면으로">
-      <span class="brand-mark" aria-hidden="true">✈</span><span class="brand-name">Tourism Industry Terminology Quiz</span>
+      <img class="brand-logo" id="logoImg" alt="회사 로고" hidden>
+      <span class="brand-fb" id="brandFallback"><span class="brand-mark" aria-hidden="true">✈</span><span class="brand-name">Tourism Industry Terminology Quiz</span></span>
     </button>
     <span class="bar-meta" id="barMeta">30문항 · 약 5분</span>
   </div>
@@ -397,10 +435,19 @@ footer{padding-block:40px 28px;display:grid;justify-items:center;gap:12px}
   </div>
 </main>
 
-<footer class="wrap">
-  <div class="stamp" aria-label="Copyright MICELINK 2026"><span><span class="t1">✈ COPYRIGHT ✈</span><span class="t2">MICELINK 2026</span></span></div>
-  <div class="foot-sub">Tourism Industry Terminology Quiz</div>
-  <button class="admin-link" id="adminLink" type="button" hidden>관리자</button>
+<section class="wrap ads-wrap" id="ads" aria-label="광고" aria-roledescription="carousel">
+  <div class="ads">
+    <div class="ad-stage" id="adStage"></div>
+    <button class="ad-nav prev" id="adPrev" type="button" aria-label="이전 배너">‹</button>
+    <button class="ad-nav next" id="adNext" type="button" aria-label="다음 배너">›</button>
+    <div class="ad-dots" id="adDots"></div>
+  </div>
+</section>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p class="copy">Copyright © 2026 MICELINK. All rights reserved.</p>
+    <p class="foot-sub">Tourism Industry Terminology Quiz <button class="admin-link" id="adminLink" type="button" hidden>관리자</button></p>
+  </div>
 </footer>
 <div id="guard" hidden><div><h2>잠깐! 개발자 도구가 감지되었어요</h2><p>공정한 경쟁을 위해 진행 중인 퀴즈가 초기화되었습니다.<br>개발자 도구를 닫고 다시 탑승해 주세요.</p><button class="btn btn-main" id="guardOk" type="button" style="margin-top:14px">확인</button></div></div>
 
@@ -719,7 +766,52 @@ var S={screen:'home',quiz:null,idx:0,answers:[],t0:0,tick:null,profile:null,resu
 
 
 /* ---------- screens ---------- */
-function show(name){S.screen=name;['home','quiz','result','admin'].forEach(function(n){$(n).hidden=n!==name});window.scrollTo(0,0);}
+function show(name){S.screen=name;['home','quiz','result','admin'].forEach(function(n){$(n).hidden=n!==name});$('ads').hidden=!(name==='home'||name==='result')||!Ads.count;Ads.run(!$('ads').hidden);window.scrollTo(0,0);}
+
+/* ---------- 설정 (index.html 맨 위 QUIZ_CONFIG) ---------- */
+var CFG=window.QUIZ_CONFIG||{};
+
+/* ---------- 회사 로고: logo.png 가 있으면 표시, 없으면 기본 표기 ---------- */
+(function(){var img=$('logoImg');img.onload=function(){img.hidden=false;$('brandFallback').hidden=true;};img.onerror=function(){img.hidden=true;$('brandFallback').hidden=false;};img.src=CFG.LOGO||'logo.png';})();
+
+/* ---------- 하단 롤링 광고 배너 ---------- */
+var Ads=(function(){
+  var list=(CFG.BANNERS&&CFG.BANNERS.length?CFG.BANNERS:[{img:'banner1.png',mobile:'banner1_m.png'},{img:'banner2.png',mobile:'banner2_m.png'},{img:'banner3.png',mobile:'banner3_m.png'}]).slice(0,10);
+  var sec=CFG.BANNER_SECONDS||4.5, stage=$('adStage'), dots=$('adDots'), box=stage.parentNode, mq=window.matchMedia('(max-width:640px)');
+  var i=0, timer=null, paused=false, active=false, reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var slides=list.map(function(b,k){
+    var hasLink=b.link&&/^https?:\/\//.test(b.link);
+    var el=document.createElement(hasLink?'a':'div');el.className='ad';
+    if(hasLink){el.href=b.link;el.target='_blank';el.rel='noopener noreferrer sponsored';}
+    el.setAttribute('aria-label',(b.alt||('광고 배너 '+(k+1)))+(hasLink?' (새 창에서 열림)':''));
+    var img=document.createElement('img');img.alt=b.alt||('광고 배너 '+(k+1));img.loading=k?'lazy':'eager';img.draggable=false;
+    var ph=document.createElement('div');ph.className='ph';ph.hidden=true;ph.innerHTML='<span><b>광고 배너 '+(k+1)+'</b>'+(b.img||'banner'+(k+1)+'.png')+' 파일을 올려 주세요 · PC 1080×200 / 모바일 720×240</span>';
+    el.appendChild(img);el.appendChild(ph);stage.appendChild(el);
+    var d=document.createElement('button');d.type='button';d.setAttribute('aria-label',(k+1)+'번 배너');d.onclick=function(){go(k);restart();};dots.appendChild(d);
+    function pick(){
+      var useM=mq.matches&&b.mobile&&!img.dataset.noM;
+      var src=useM?b.mobile:b.img; img.dataset.m=useM?'1':'';
+      if(src&&img.getAttribute('src')!==src){img.hidden=false;ph.hidden=true;img.src=src;}
+      if(!src){img.hidden=true;ph.hidden=false;}
+    }
+    img.onerror=function(){ if(img.dataset.m==='1'){img.dataset.noM='1';pick();} else {img.hidden=true;ph.hidden=false;} };
+    return {el:el,dot:d,pick:pick,img:img};
+  });
+  function fit(){ var s=slides[i]; box.classList.toggle('m',!!(s&&s.img.dataset.m==='1'&&!s.img.hidden)); }
+  function go(k){ if(!slides.length)return; i=(k+slides.length)%slides.length; slides.forEach(function(s,j){s.el.classList.toggle('on',j===i);s.dot.classList.toggle('on',j===i);s.el.setAttribute('aria-hidden',j===i?'false':'true');if(s.el.tagName==='A')s.el.tabIndex=j===i?0:-1;}); fit(); }
+  function restart(){ clearInterval(timer); timer=null; if(active&&!paused&&slides.length>1&&!reduce) timer=setInterval(function(){go(i+1);},sec*1000); }
+  slides.forEach(function(s){s.pick();s.img.addEventListener('load',fit);});
+  (mq.addEventListener?mq.addEventListener('change',function(){slides.forEach(function(s){s.pick();});fit();}):mq.addListener(function(){slides.forEach(function(s){s.pick();});fit();}));
+  box.addEventListener('mouseenter',function(){paused=true;restart();});box.addEventListener('mouseleave',function(){paused=false;restart();});
+  box.addEventListener('focusin',function(){paused=true;restart();});box.addEventListener('focusout',function(){paused=false;restart();});
+  $('adPrev').onclick=function(){go(i-1);restart();};$('adNext').onclick=function(){go(i+1);restart();};
+  var x0=null;stage.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  stage.addEventListener('touchend',function(e){if(x0==null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){go(i+(dx<0?1:-1));restart();}x0=null;},{passive:true});
+  document.addEventListener('visibilitychange',function(){paused=document.hidden;restart();});
+  if(slides.length<2){$('adPrev').hidden=$('adNext').hidden=true;dots.hidden=true;}
+  go(0);
+  return {count:slides.length,run:function(on){active=on;restart();}};
+})();
 
 /* ---------- ranking table ---------- */
 function medal(i){return i===0?'🥇':i===1?'🥈':i===2?'🥉':''}
@@ -967,6 +1059,7 @@ $('saveBankBtn').addEventListener('click',function(){
 
 /* ---------- boot ---------- */
 function refreshChip(){API.bankCount().then(function(b){$('bankChip').textContent=b.count?'문제은행 '+b.count+'개 용어'+(b.sample?' (샘플)':''):'문제은행 준비 중';}).catch(function(){$('bankChip').textContent='문제은행 확인 불가';});}
+Ads.run(true);
 API.init().then(function(info){S.canAdmin=!!info.canAdmin;$('adminLink').hidden=!S.canAdmin;refreshChip();});
 })();
 </script>
