@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<script>
+/* ▼▼▼ 여기 한 줄만 바꾸세요: 따옴표 안에 구글 앱스 스크립트 웹 앱 주소(…/exec)를 붙여넣기 ▼▼▼ */
+window.QUIZ_CONFIG = { API_URL: '여기에_웹앱_주소_붙여넣기' };
+</script>
+<meta property="og:image" content="og-image.png">
+<meta name="description" content="내 순위는 얼마나 될까? MICE·호텔·여행 실무 용어 30문제, 정답 수와 속도로 순위가 갈립니다. 지금 바로 도전하세요!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tourism Industry Terminology Quiz">
+<meta property="og:description" content="내 순위는 얼마나 될까? MICE·호텔·여행 실무 용어 30문제, 정답 수와 속도로 순위가 갈립니다. 지금 바로 도전하세요!">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0d1626">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d1626'/><text x='50' y='70' font-size='62' text-anchor='middle'>✈️</text></svg>">
+<title>Tourism Industry Terminology Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an airport at night — departure-board ranking, boarding-pass forms, a runway progress strip. Single dark look by design. */
+:root{
+  --night:#0d1626; --apron:#14213a; --apron-2:#1b2b49; --line:#2a3d60;
+  --sign:#ffc83d; --sign-ink:#1a1405; --sky:#7cc4ff; --ink:#eaf1fb; --mute:#93a7c4;
+  --ok:#4ade80; --no:#f87171;
+  --f-display:"Do Hyeon","IBM Plex Sans KR",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:15px;line-height:1.55;padding-inline:16px;padding-block:0 8px;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea{-webkit-user-select:text;user-select:text}
+.wrap{max-width:1080px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sign);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.brand-mark{background:var(--sign);color:var(--sign-ink);font-family:var(--f-mono);font-weight:600;font-size:12px;padding:3px 7px;border-radius:3px;letter-spacing:.08em}
+.brand-name{font-family:var(--f-display);font-size:clamp(15px,3.6vw,20px);letter-spacing:.02em;text-align:left;line-height:1.2}
+.bar-meta{font-family:var(--f-mono);font-size:12px;color:var(--mute);letter-spacing:.08em}
+
+/* hero */
+.hero{padding-block:34px 20px;display:grid;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;color:var(--sky);text-transform:uppercase}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.12;margin:0;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--sign)}
+.hero p{margin:0;color:var(--mute);max-width:60ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--mute)}
+
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:22px;align-items:start;padding-block:10px 30px}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+/* boarding pass */
+.pass{background:var(--ink);color:#16213a;border-radius:14px;position:relative;overflow:hidden}
+.pass-head{background:var(--sign);color:var(--sign-ink);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-weight:600;font-size:12px;letter-spacing:.14em}
+.pass-body{padding:18px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.pass::before,.pass::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:var(--night);top:calc(100% - 92px)}
+.pass::before{left:-11px}.pass::after{right:-11px}
+.field{display:grid;gap:5px;min-width:0}
+.field label{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:#55627a;text-transform:uppercase}
+.field input{width:100%;min-width:0;border:0;border-bottom:2px solid #c8d2e2;background:transparent;font-size:18px;font-weight:600;padding:6px 2px;color:#0f1a30;border-radius:0}
+.field input:focus{outline:none;border-bottom-color:#0f1a30}
+.field small{color:#66738b;font-size:12px}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.perf{border-top:2px dashed #c8d2e2;margin:2px -18px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:13px 18px;font-weight:700;font-size:16px}
+.btn-go{background:#0f1a30;color:var(--sign);width:100%}
+.btn-go:hover{background:#1c2c4d}
+.btn-go[disabled]{opacity:.45;cursor:not-allowed}
+.err{color:#b42318;font-size:13px;min-height:1em;margin:0}
+.notice{font-size:12px;color:#66738b;margin:0}
+
+/* departure board */
+.board{background:#070c16;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.board-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.board-head h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:22px;color:var(--sign);letter-spacing:.03em}
+.board-head span{font-family:var(--f-mono);font-size:11px;color:var(--mute);letter-spacing:.1em}
+.board-scroll{overflow-x:auto;max-height:520px;overflow-y:auto}
+table.rank{width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px}
+.rank th{position:sticky;top:0;background:#070c16;text-align:left;font-family:var(--f-mono);font-weight:500;font-size:10.5px;letter-spacing:.14em;color:var(--mute);padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.rank td{padding:9px 10px;border-bottom:1px solid #16213a;white-space:nowrap}
+.rank td.num,.rank th.num{text-align:right}
+.rank .pos{font-family:var(--f-mono);font-weight:600;color:var(--sign);width:44px}
+.rank tr.top1 .pos{color:#ffd86b}
+.rank .who{font-weight:600}
+.rank .flap{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.rank tr.me td{background:rgba(255,200,61,.14)}
+.rank tr.me .who::after{content:"  ← 나";color:var(--sign);font-weight:500}
+.empty{padding:28px 16px;color:var(--mute);text-align:center}
+.medal{display:inline-block;width:1.3em}
+
+/* footer */
+footer{padding-block:26px 18px;border-top:1px solid var(--line);margin-top:10px;display:grid;justify-items:center;gap:10px}
+.flaps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
+.flaps .fw{display:inline-flex;gap:3px}
+.flaps i{font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:13px;width:1.45em;height:1.9em;display:grid;place-items:center;background:#0a111f;border:1px solid var(--line);border-radius:3px;color:var(--sign);position:relative}
+.flaps i::after{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid #000}
+.flaps i.sp{background:transparent;border-color:transparent}
+.flaps i.sp::after{display:none}
+.foot-sub{font-family:var(--f-mono);font-size:11px;color:var(--mute);letter-spacing:.16em}
+.admin-link{background:none;border:0;color:var(--mute);font-size:12px;text-decoration:underline;padding:4px}
+
+/* quiz */
+.q-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-block:18px 6px;flex-wrap:wrap}
+.q-count{font-family:var(--f-mono);font-size:13px;color:var(--mute);letter-spacing:.1em}
+.q-count b{color:var(--ink);font-size:18px}
+.timer{font-family:var(--f-mono);font-size:22px;color:var(--sign);font-weight:600;font-variant-numeric:tabular-nums}
+.flight{position:relative;height:118px;margin-block:4px 10px;border-radius:12px;background:linear-gradient(180deg,#0b1424 0%,#13213b 100%);border:1px solid var(--line);overflow:hidden}
+.runway{position:absolute;left:0;right:0;bottom:0;height:26px;background:#2b3442;border-top:2px solid #3d4757}
+.runway::after{content:"";position:absolute;left:6%;right:12%;top:11px;border-top:3px dashed #e9edf3;opacity:.55}
+.flight .pt{position:absolute;bottom:22px;font-size:26px;line-height:1;transform:translateX(-50%)}
+.flight .flag{left:4%}
+.flight .globe{left:50%;bottom:44px;font-size:30px}
+.flight .terminal{right:1%;transform:none;bottom:20px;font-size:40px}
+.flight .tlabel{position:absolute;right:8px;top:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--mute)}
+.flight .slabel{position:absolute;left:8px;top:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--mute)}
+.plane{position:absolute;bottom:30px;left:4%;font-size:34px;line-height:1;transition:left .6s cubic-bezier(.3,.7,.3,1),bottom .6s ease;will-change:left;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+.trail{position:absolute;bottom:46px;left:4%;height:2px;background:linear-gradient(90deg,transparent,rgba(124,196,255,.6));transition:width .6s cubic-bezier(.3,.7,.3,1)}
+
+.qcard{background:var(--apron);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:16px}
+.qtype{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;padding:3px 8px;border-radius:4px;background:var(--apron-2);color:var(--sky);border:1px solid var(--line)}
+.tag.rev{color:var(--sign)}
+.qask{color:var(--mute);font-size:14px;margin:0}
+.qprompt{font-size:clamp(19px,3.2vw,25px);font-weight:600;line-height:1.45;margin:0;text-wrap:pretty}
+.qprompt.word{font-family:var(--f-mono);font-size:clamp(26px,5vw,38px);color:var(--sign);letter-spacing:.02em}
+.qex{background:#0f1a2f;border-left:3px solid var(--sky);border-radius:0 8px 8px 0;padding:10px 14px;font-size:15px;color:#c9d6ea}
+.qex b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;color:var(--sky);display:block;margin-bottom:2px;font-weight:500}
+.choices{display:grid;gap:10px}
+.choice{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:var(--apron-2);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .15s,background .15s,transform .1s}
+.choice:hover{border-color:#4a6694}
+.choice:active{transform:scale(.995)}
+.choice .k{font-family:var(--f-mono);font-weight:600;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1.5px solid #4a6694;color:var(--mute);font-size:13px}
+.choice .t{min-width:0;font-size:16px}
+.choice.en .t{font-family:var(--f-mono);font-size:19px;letter-spacing:.06em}
+.choice.sel{border-color:var(--sign);background:rgba(255,200,61,.1)}
+.choice.sel .k{background:var(--sign);color:var(--sign-ink);border-color:var(--sign)}
+.qnav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:#4a6694}
+.btn-sign{background:var(--sign);color:var(--sign-ink)}
+.btn-sign[disabled]{opacity:.4;cursor:not-allowed}
+.dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.dot{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:transparent;font-family:var(--f-mono);font-size:10.5px;color:var(--mute);padding:0}
+.dot.done{background:var(--apron-2);color:var(--ink);border-color:#4a6694}
+.dot.cur{border-color:var(--sign);color:var(--sign)}
+.hint{font-size:13px;color:var(--mute);margin:0}
+
+/* result */
+.steps{display:flex;gap:6px;flex-wrap:wrap;padding-block:22px 4px}
+.step{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
+.step.on{border-color:var(--sign);color:var(--sign)}
+.arrived{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--ink);color:#16213a;border-radius:16px;padding:22px;margin-block:12px}
+@media (max-width:620px){.arrived{grid-template-columns:minmax(0,1fr)}}
+.arrived h2{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:28px}
+.arrived .meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:#3d4a62}
+.arrived .meta b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:#6a7690;display:block;font-weight:500}
+.scorebox{text-align:right}
+@media (max-width:620px){.scorebox{text-align:left}}
+.score{font-family:var(--f-display);font-size:64px;line-height:1;color:#0f1a30}
+.score small{font-size:24px;color:#6a7690}
+.rankpill{display:inline-block;margin-top:6px;background:#0f1a30;color:var(--sign);font-family:var(--f-mono);font-weight:600;padding:5px 12px;border-radius:999px;font-size:13px}
+.sec-title{font-family:var(--f-display);font-weight:400;font-size:24px;margin:26px 0 10px;color:var(--ink)}
+.sec-title span{font-family:var(--f-mono);font-size:12px;color:var(--mute);margin-left:8px;letter-spacing:.06em}
+.share{background:var(--apron);border:1px dashed var(--sign);border-radius:14px;padding:18px;display:grid;gap:12px}
+.share textarea{width:100%;min-height:170px;resize:vertical;background:#0b1424;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;font-size:14px;line-height:1.6}
+.share .acts{display:flex;gap:10px;flex-wrap:wrap}
+.toast{font-size:13px;color:var(--ok);min-height:1em}
+.review{display:grid;gap:8px}
+.rv{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;background:var(--apron);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.rv .mark{font-family:var(--f-mono);font-weight:700;font-size:13px;height:30px;border-radius:6px;display:grid;place-items:center}
+.rv.ok .mark{background:rgba(74,222,128,.15);color:var(--ok)}
+.rv.no .mark{background:rgba(248,113,113,.15);color:var(--no)}
+.rv .p{margin:0;font-weight:600}
+.rv .a{margin:4px 0 0;font-size:13.5px;color:var(--mute)}
+.rv .a .y{color:var(--no)}
+.rv.ok .a .y{color:var(--ok)}
+.rv .a .c{color:var(--ink)}
+.res-acts{display:flex;gap:10px;flex-wrap:wrap;padding-block:20px 6px}
+
+/* challenge */
+.challenge{margin-block:30px 6px;background:linear-gradient(135deg,#ffc83d,#ffad33);color:var(--sign-ink);border-radius:18px;padding:24px;display:grid;gap:8px}
+.challenge h2{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.5vw,34px);text-wrap:balance}
+.challenge p{margin:0;font-size:15px}
+.challenge .cstat{font-family:var(--f-mono);font-weight:600;font-size:15px}
+
+/* admin */
+.tabs{display:flex;gap:6px;padding-block:20px 12px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:transparent;border-radius:8px;padding:8px 14px;color:var(--mute)}
+.tab.on{background:var(--apron-2);color:var(--ink);border-color:#4a6694}
+.panel{background:var(--apron);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px}
+.panel h3{margin:0;font-size:17px}
+.panel p{margin:0;color:var(--mute);font-size:14px}
+.panel textarea{width:100%;min-height:180px;background:#0b1424;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--f-mono);font-size:12.5px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:#0f1a2f;border:1px solid var(--line);border-radius:10px;padding:12px}
+.stat b{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:var(--mute);font-weight:500}
+.stat span{font-family:var(--f-mono);font-size:22px;font-weight:600}
+.mini{background:none;border:1px solid var(--line);border-radius:6px;padding:3px 8px;font-size:12px;color:var(--mute)}
+.mini.danger{color:var(--no);border-color:#5a2a33}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#2a1520;border:1px solid #5a2a33;border-radius:10px;padding:10px 12px;font-size:13.5px}
+.badge-sample{display:inline-block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;color:var(--sign-ink);background:var(--sign);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+
+/* guard overlay */
+#guard{position:fixed;inset:0;background:rgba(7,12,22,.97);display:grid;place-items:center;z-index:50;padding:24px;text-align:center}
+#guard h2{font-family:var(--f-display);font-weight:400;color:var(--sign);font-size:28px;margin:0 0 8px}
+@media (prefers-reduced-motion:reduce){.plane,.trail{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="bar">
+    <button class="brand" id="brandBtn" type="button" aria-label="첫 화면으로">
+      <span class="brand-mark">ML 2026</span><span class="brand-name">Tourism Industry Terminology Quiz</span>
+    </button>
+    <span class="bar-meta" id="barMeta">GATE 30 · ON TIME</span>
+  </header>
+
+  <!-- HOME -->
+  <main id="home">
+    <section class="hero">
+      <div class="eyebrow">MICE · 호텔 · 여행 실무 용어 · 30 Questions</div>
+      <h1>내 순위는 얼마나 될까?<br><em>지금 바로 퀴즈에 도전하세요!</em></h1>
+      <p>회의장에서, 호텔 계약서에서, 공항 카운터에서 매일 쓰는 그 말들. 정말 다 알고 쓰셨나요? 설명 보고 용어 맞히기 20문제, 용어 보고 뜻 맞히기 10문제. 동점이면 더 빨리 착륙한 사람이 이깁니다.</p>
+      <div class="chips"><span class="chip">객관식 4지선다</span><span class="chip">매 회차 무작위 출제</span><span class="chip">정답은 최종 채점 때 공개</span><span class="chip" id="bankChip">문제은행 불러오는 중</span></div>
+    </section>
+
+    <div class="grid">
+      <form class="pass" id="startForm" autocomplete="off" novalidate>
+        <div class="pass-head"><span>BOARDING PASS</span><span>ML → QUIZ</span></div>
+        <div class="pass-body">
+          <div class="field"><label for="fTeam">회사명 · Company</label><input id="fTeam" maxlength="30" placeholder="예: 대한투어" required></div>
+          <div class="field"><label for="fNick">닉네임 · Passenger</label><input id="fNick" maxlength="20" placeholder="랭킹에 표시될 이름" required></div>
+          <div class="row2">
+            <div class="field"><label for="fPhone">전화번호 끝 4자리</label><input id="fPhone" inputmode="numeric" maxlength="4" placeholder="선택" pattern="\d{4}"><small>동명이인 구분용 · 랭킹에 표시</small></div>
+            <div class="field"><label>Seat</label><input value="30Q" disabled aria-label="문항 수 30"></div>
+          </div>
+          <p class="err" id="formErr" role="alert"></p>
+          <div class="perf"></div>
+          <button class="btn btn-go" id="startBtn" type="submit">탑승하기 · 퀴즈 시작 ✈️</button>
+          <p class="notice">풀이 중 새로고침, 뒤로가기, 창 닫기를 하면 응시 정보와 진행 상황이 초기화됩니다.</p>
+        </div>
+      </form>
+
+      <section class="board" aria-labelledby="rkTitle">
+        <div class="board-head"><h2 id="rkTitle">누적 랭킹 · DEPARTURES</h2><span id="rkCount">—</span></div>
+        <div class="board-scroll" id="homeBoard"><div class="empty">랭킹을 불러오는 중입니다…</div></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- QUIZ -->
+  <main id="quiz" hidden>
+    <div class="q-top">
+      <div class="q-count">QUESTION <b id="qNo">1</b> / <span id="qTotal">30</span></div>
+      <div class="timer" id="timer" aria-live="off">00:00</div>
+    </div>
+    <div class="flight" aria-hidden="true">
+      <span class="slabel">DEPARTURE</span><span class="tlabel">ARRIVAL · TERMINAL</span>
+      <span class="pt flag">🚩</span>
+      <span class="pt globe">🌏</span>
+      <span class="pt terminal">🏢</span>
+      <div class="runway"></div>
+      <div class="trail" id="trail"></div>
+      <div class="plane" id="plane">✈️</div>
+    </div>
+    <article class="qcard" id="qcard">
+      <div class="qtype"><span class="tag" id="qTag">용어 찾기</span></div>
+      <p class="qask" id="qAsk"></p>
+      <p class="qprompt" id="qPrompt"></p>
+      <div class="qex" id="qEx" hidden><b>EXAMPLE</b><span id="qExText"></span></div>
+      <div class="choices" id="choices" role="radiogroup"></div>
+      <div class="qnav">
+        <button class="btn btn-ghost" id="prevBtn" type="button">← 이전</button>
+        <button class="btn btn-sign" id="nextBtn" type="button">다음 →</button>
+      </div>
+      <p class="hint" id="qHint"></p>
+    </article>
+    <div class="dots" id="dots" aria-label="문항 바로가기"></div>
+  </main>
+
+  <!-- RESULT -->
+  <main id="result" hidden>
+    <div class="steps"><span class="step on">① 채점 결과</span><span class="step" id="st2">② 랭킹 게시</span><span class="step" id="st3">③ 도전장 보내기</span></div>
+    <section class="arrived">
+      <div>
+        <h2 id="rTitle">착륙 완료! 🛬</h2>
+        <div class="meta">
+          <div><b>PASSENGER</b><span id="rNick"></span></div>
+          <div><b>COMPANY</b><span id="rTeam"></span></div>
+          <div><b>FLIGHT TIME</b><span class="mono" id="rTime"></span></div>
+          <div><b>ARRIVED</b><span class="mono" id="rStamp"></span></div>
+        </div>
+      </div>
+      <div class="scorebox"><div class="score"><span id="rScore">0</span><small> / <span id="rTotal">30</span></small></div><span class="rankpill" id="rRank">랭킹 게시 중…</span></div>
+    </section>
+
+    <h3 class="sec-title">랭킹 게시 <span id="rPostNote">기록을 게시하고 있습니다</span></h3>
+    <section class="board"><div class="board-scroll" id="resultBoard"><div class="empty">랭킹을 불러오는 중입니다…</div></div></section>
+
+    <h3 class="sec-title">도전장 보내기 <span>동료에게 링크를 보내 승부를 겨뤄 보세요</span></h3>
+    <section class="share">
+      <textarea id="shareText" aria-label="도전장 문구"></textarea>
+      <div class="acts">
+        <button class="btn btn-sign" id="copyBtn" type="button">📋 도전장 복사하기</button>
+        <button class="btn btn-ghost" id="rerollBtn" type="button">🎲 다른 도발 문구</button>
+      </div>
+      <div class="toast" id="copyToast" role="status"></div>
+    </section>
+
+    <h3 class="sec-title">정답 확인 <span id="rvSummary"></span></h3>
+    <div class="review" id="review"></div>
+    <div class="res-acts"><button class="btn btn-sign" id="againBtn" type="button">다시 도전하기 ✈️</button><button class="btn btn-ghost" id="homeBtn" type="button">첫 화면으로</button></div>
+  </main>
+
+  <!-- ADMIN -->
+  <main id="admin" hidden>
+    <div class="tabs"><button class="tab on" data-tab="runs" type="button">응시 결과</button><button class="tab" data-tab="bank" type="button">문제은행</button></div>
+    <section class="panel" id="tabRuns">
+      <div class="stats" id="aStats"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-sign" id="csvBtn" type="button">CSV로 내려받기</button>
+        <button class="btn btn-ghost" id="resetBtn" type="button">랭킹 전체 초기화</button>
+        <span class="toast" id="aToast"></span>
+      </div>
+      <div id="resetConfirm" hidden class="confirm">모든 응시 기록을 삭제합니다. 되돌릴 수 없습니다. <button class="mini danger" id="resetYes" type="button">삭제</button><button class="mini" id="resetNo" type="button">취소</button></div>
+      <div class="board"><div class="board-scroll" id="adminBoard"></div></div>
+    </section>
+    <section class="panel" id="tabBank" hidden>
+      <h3>문제은행 <span id="aBankInfo" class="mono" style="font-weight:500;color:var(--mute);font-size:13px"></span></h3>
+      <p>구글 시트에서 머리글 행을 포함해 표 전체를 선택(Ctrl+A) → 복사(Ctrl+C)한 뒤 아래에 붙여넣으세요. ‘단어(한글/영문)’, ‘단어 뜻’, ‘예문’ 열을 머리글 이름으로 자동 인식합니다. CSV 파일 내용도 됩니다.</p>
+      <textarea id="bankInput" placeholder="번호	단어 (한글/영문)	단어 뜻	예문"></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ghost" id="parseBtn" type="button">미리보기</button><button class="btn btn-sign" id="saveBankBtn" type="button" disabled>문제은행에 적용</button></div>
+      <p id="parseInfo"></p>
+      <div class="board"><div class="board-scroll" id="bankPreview"></div></div>
+    </section>
+    <div class="res-acts"><button class="btn btn-ghost" id="adminBack" type="button">← 첫 화면으로</button></div>
+  </main>
+
+  <footer>
+    <div class="flaps" id="flaps" aria-label="Copyright MICELINK 2026"></div>
+    <div class="foot-sub">ALL RIGHTS RESERVED · TOURISM INDUSTRY TERMINOLOGY QUIZ</div>
+    <button class="admin-link" id="adminLink" type="button" hidden>관리자</button>
+  </footer>
+</div>
+<div id="guard" hidden><div><h2>잠깐! 개발자 도구가 감지되었습니다</h2><p>공정한 경쟁을 위해 진행 중인 퀴즈가 초기화되었습니다.<br>개발자 도구를 닫고 다시 탑승해 주세요.</p><button class="btn btn-sign" id="guardOk" type="button" style="margin-top:14px">확인</button></div></div>
+
+<script>
+/* ===== MICELINK Quiz Engine (shared by browser & Apps Script) ===== */
+var Engine = (function () {
+  var HANGUL = /[가-힣ㄱ-ㅎㅏ-ㅣ]/;
+  var H = {
+    example: /예문|예시|example|sentence/i,
+    meaning: /뜻|의미|meaning|정의|설명|definition/i,
+    cat: /분류|구분|카테고리|category|분야/i,
+    en: /영문|영어|english|\beng\b/i,
+    ko: /한글|국문|국어|korean|\bkor\b/i,
+    word: /단어|용어|term|word/i
+  };
+
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function clean(s) { return String(s == null ? '' : s).replace(/\s+/g, ' ').trim(); }
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+  /* CSV / TSV (Google Sheets copy-paste) -> rows */
+  function parseTable(text) {
+    text = String(text || '').replace(/\r\n?/g, '\n');
+    var firstLine = text.split('\n')[0] || '';
+    var delim = firstLine.indexOf('\t') >= 0 || (text.indexOf('\t') >= 0 && firstLine.indexOf(',') < 0) ? '\t' : ',';
+    var rows = [], row = [], cell = '', q = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; }
+        else cell += c;
+      } else if (c === '"' && cell === '') q = true;
+      else if (c === delim) { row.push(cell); cell = ''; }
+      else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+      else cell += c;
+    }
+    if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (c) { return clean(c) !== ''; }); });
+  }
+
+  function mapHeader(row) {
+    var m = {};
+    row.forEach(function (raw, i) {
+      var h = clean(raw);
+      if (!h) return;
+      if (H.example.test(h)) { if (m.example == null) m.example = i; return; }
+      if (H.meaning.test(h)) { if (m.meaning == null) m.meaning = i; return; }
+      if (H.cat.test(h)) { if (m.cat == null) m.cat = i; return; }
+      var en = H.en.test(h), ko = H.ko.test(h);
+      if ((en && ko) || (H.word.test(h) && !en && !ko)) { if (m.word == null) m.word = i; return; }
+      if (en) { if (m.en == null) m.en = i; return; }
+      if (ko) { if (m.ko == null) m.ko = i; return; }
+    });
+    return m;
+  }
+
+  /* "객실 블록 / Room Block", "Room Block(객실 블록)" -> {en, ko} */
+  function splitWord(s) {
+    s = clean(s);
+    var parts = s.split(/[\/|·,()\[\]\n]+/).map(clean).filter(Boolean);
+    var en = [], ko = [];
+    parts.forEach(function (p) {
+      if (HANGUL.test(p)) {
+        var latin = p.match(/[A-Za-z][A-Za-z0-9&'’.\- ]*[A-Za-z0-9.]/g);
+        var hangulOnly = clean(p.replace(/[A-Za-z][A-Za-z0-9&'’.\- ]*[A-Za-z0-9.]/g, ' '));
+        if (latin && latin.join('').length > 1) en.push(clean(latin.join(' ')));
+        if (hangulOnly) ko.push(hangulOnly);
+      } else if (/[A-Za-z]/.test(p)) en.push(p);
+    });
+    return { en: en.join(' / '), ko: ko.join(', ') };
+  }
+
+  /* rows -> bank items. Returns {items, mapping, headerRow, skipped} */
+  function rowsToBank(rows) {
+    var hi = -1, m = null;
+    for (var i = 0; i < Math.min(rows.length, 6); i++) {
+      var cand = mapHeader(rows[i]);
+      if (cand.meaning != null && (cand.en != null || cand.word != null)) { hi = i; m = cand; break; }
+    }
+    if (hi < 0) {
+      // No header: assume [word(ko/en), meaning, example?] or [ko, en, meaning, example]
+      var w = rows[0] ? rows[0].length : 0;
+      m = w >= 4 ? { ko: 0, en: 1, meaning: 2, example: 3 } : { word: 0, meaning: 1, example: 2 };
+    }
+    var items = [], skipped = 0, seen = {};
+    rows.slice(hi + 1).forEach(function (r) {
+      var en = m.en != null ? clean(r[m.en]) : '';
+      var ko = m.ko != null ? clean(r[m.ko]) : '';
+      if (m.word != null) {
+        var sw = splitWord(r[m.word]);
+        if (!en) en = sw.en;
+        if (!ko) ko = sw.ko;
+      }
+      if (en && HANGUL.test(en)) { var s2 = splitWord(en); en = s2.en; ko = ko || s2.ko; }
+      var meaning = m.meaning != null ? clean(r[m.meaning]) : '';
+      var example = m.example != null ? clean(r[m.example]) : '';
+      var cat = m.cat != null ? clean(r[m.cat]) : '';
+      var k = en.toLowerCase();
+      if (!en || !meaning || seen[k]) { skipped++; return; }
+      seen[k] = 1;
+      items.push({ en: en, ko: ko, meaning: meaning, example: example, cat: cat });
+    });
+    return { items: items, mapping: m, headerRow: hi >= 0 ? rows[hi] : null, skipped: skipped };
+  }
+
+  /* Partially hide English spelling. Acronyms & short words stay whole. */
+  function maskEn(s) {
+    return s.split(/(\s+)/).map(function (tok) {
+      if (/^\s+$/.test(tok)) return tok;
+      var letters = tok.replace(/[^A-Za-z]/g, '');
+      if (letters.length <= 3 || /^[A-Z0-9&.\-\/]+$/.test(tok)) return tok;
+      var keep = Math.max(2, Math.ceil(letters.length * 0.5)), n = 0;
+      return tok.replace(/[A-Za-z]/g, function (ch) { n++; return n <= keep ? ch : '_'; });
+    }).join('');
+  }
+
+  var BLANK = '(　　　)';
+  function blankExample(ex, item) {
+    if (!ex) return '';
+    var targets = [];
+    item.en.split(/\s*\/\s*/).forEach(function (t) { if (t) targets.push(t); });
+    String(item.ko || '').split(/\s*[,\/·]\s*/).forEach(function (t) { if (t && t.length >= 1) targets.push(t); });
+    targets.sort(function (a, b) { return b.length - a.length; });
+    var out = ex;
+    targets.forEach(function (t) {
+      if (HANGUL.test(t)) {
+        out = out.replace(new RegExp(esc(t), 'g'), BLANK);
+      } else {
+        var body = esc(t).replace(/\\?[\s-]+/g, '[\\s\\-]*');
+        out = out.replace(new RegExp('(^|[^A-Za-z])' + body + '(?:e?s|ed|d|ing)?(?![A-Za-z])', 'gi'), function (m0, pre) { return pre + BLANK; });
+      }
+    });
+    return out;
+  }
+
+  function pickOthers(bank, item, n, keyFn) {
+    var own = keyFn(item), used = {}; used[own] = 1;
+    var same = shuffle(bank.filter(function (b) { return item.cat && b.cat === item.cat; }));
+    var rest = shuffle(bank.slice());
+    var out = [];
+    same.concat(rest).forEach(function (b) {
+      var k = keyFn(b);
+      if (out.length < n && !used[k]) { used[k] = 1; out.push(b); }
+    });
+    return out;
+  }
+
+  /* Build one round: TOTAL questions, REVERSE of which show the word and ask the meaning. */
+  function buildQuiz(bank, total, reverse) {
+    total = Math.min(total || 30, bank.length);
+    reverse = Math.min(reverse == null ? 10 : reverse, total);
+    var picked = shuffle(bank.slice()).slice(0, total);
+    var qs = picked.map(function (it, i) {
+      var isB = i >= total - reverse;
+      var keyFn = isB ? function (b) { return b.meaning.toLowerCase(); } : function (b) { return b.en.toLowerCase(); };
+      var opts = shuffle([it].concat(pickOthers(bank, it, 3, keyFn)));
+      var answer = opts.indexOf(it);
+      var choices;
+      if (isB) choices = opts.map(function (o) { return o.meaning; });
+      else choices = opts.map(function (o) { return o.en; }); // 영문 전체 표기 (마스킹 없음)
+      return {
+        pub: { type: isB ? 'B' : 'A', prompt: isB ? it.en : it.meaning, example: blankExample(it.example, it), choices: choices },
+        key: { answer: answer, en: it.en, ko: it.ko, meaning: it.meaning, example: it.example, full: isB ? choices : opts.map(function (o) { return o.en; }) }
+      };
+    });
+    shuffle(qs);
+    return { questions: qs.map(function (q) { return q.pub; }), key: qs.map(function (q) { return q.key; }) };
+  }
+
+  function grade(questions, key, answers) {
+    var score = 0;
+    var review = key.map(function (k, i) {
+      var a = answers[i];
+      var ok = a === k.answer;
+      if (ok) score++;
+      var q = questions[i];
+      return {
+        no: i + 1, type: q.type, ok: ok, prompt: q.prompt,
+        yours: a == null || a < 0 ? '(미응답)' : k.full[a],
+        correct: q.type === 'A' ? k.en : k.meaning,
+        en: k.en, ko: k.ko, meaning: k.meaning, example: k.example
+      };
+    });
+    return { score: score, total: key.length, review: review };
+  }
+
+  function sortRuns(runs) {
+    return runs.slice().sort(function (a, b) {
+      return (b.score - a.score) || (a.ms - b.ms) || (a.at - b.at);
+    });
+  }
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  /* YYYYMMDD.HH.MM in Korea time */
+  function stamp(ts) {
+    var d = new Date(ts + 9 * 3600 * 1000);
+    return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + '.' + pad(d.getUTCHours()) + '.' + pad(d.getUTCMinutes());
+  }
+  function dur(ms) {
+    var s = Math.max(0, ms) / 1000, m = Math.floor(s / 60), r = s - m * 60;
+    return (m ? m + '분 ' : '') + r.toFixed(1) + '초';
+  }
+  function clock(ms) {
+    var s = Math.floor(Math.max(0, ms) / 1000);
+    return pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+  }
+  function cleanProfile(p) {
+    p = p || {};
+    var team = clean(p.team).slice(0, 30), nick = clean(p.nick).slice(0, 20);
+    var phone4 = String(p.phone4 || '').replace(/\D/g, '').slice(-4);
+    if (!team || !nick) throw new Error('회사명과 닉네임을 입력해 주세요.');
+    if (phone4 && phone4.length !== 4) phone4 = '';
+    return { team: team, nick: nick, phone4: phone4 };
+  }
+
+  return {
+    parseTable: parseTable, rowsToBank: rowsToBank, maskEn: maskEn, blankExample: blankExample,
+    buildQuiz: buildQuiz, grade: grade, sortRuns: sortRuns, stamp: stamp, dur: dur, clock: clock,
+    cleanProfile: cleanProfile, shuffle: shuffle
+  };
+})();
+
+/* ===== Backend adapter: standalone website -> Apps Script JSON API ===== */
+var API = (function () {
+  var URL_ = (window.QUIZ_CONFIG && window.QUIZ_CONFIG.API_URL) || '';
+  var configured = /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(URL_);
+  function call(action, payload) {
+    if (!configured) return Promise.reject(new Error('서버 주소(API_URL)가 설정되지 않았습니다. 관리자에게 문의해 주세요.'));
+    var body = JSON.stringify(Object.assign({ action: action }, payload || {}));
+    return fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: body, redirect: 'follow' })
+      .then(function (r) { if (!r.ok) throw new Error('서버 응답 오류 (' + r.status + ')'); return r.json(); })
+      .then(function (j) { if (!j.ok) throw new Error(j.error || '요청을 처리하지 못했습니다.'); return j.data; })
+      .catch(function (e) {
+        if (e instanceof TypeError) throw new Error('서버에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.');
+        throw e;
+      });
+  }
+  var sessions = typeof WeakMap === 'function' ? new WeakMap() : null;
+  var initP = call('init').catch(function () { return { count: 0 }; });
+  var listeners = [];
+  function refresh() { return call('ranking').then(function (runs) { listeners.forEach(function (cb) { cb(runs); }); }).catch(function () { listeners.forEach(function (cb) { cb([]); }); }); }
+  setInterval(function () { if (!document.hidden) refresh(); }, 30000);
+  function base() { return location.origin + location.pathname; }
+  return {
+    init: function () { return initP.then(function () { return { canAdmin: false }; }); },
+    bankCount: function () { return initP.then(function (i) { return { count: i.count || 0, sample: false }; }); },
+    onRanking: function (cb) { listeners.push(cb); refresh(); },
+    startQuiz: function (p) {
+      return call('start', { profile: p }).then(function (r) {
+        var pub = { questions: r.questions };
+        if (sessions) sessions.set(pub, r.sid); else pub._s = r.sid;
+        return pub;
+      });
+    },
+    submitQuiz: function (quiz, answers) {
+      return call('submit', { sid: sessions ? sessions.get(quiz) : quiz._s, answers: answers }).then(function (r) { refresh(); return r; });
+    },
+    shareLink: function (run) { return base() + '?r=' + encodeURIComponent(run.id); },
+    readShareToken: function () {
+      try { var r = new URLSearchParams(location.search).get('r'); return Promise.resolve(r && /^[a-z0-9]{4,20}$/.test(r) ? r : ''); }
+      catch (e) { return Promise.resolve(''); }
+    },
+    getRun: function (id) { return call('run', { id: id }); },
+    admin: {}
+  };
+})();
+
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+
+var S={screen:'home',quiz:null,idx:0,answers:[],t0:0,tick:null,profile:null,result:null,runs:[],canAdmin:false,myRunId:null};
+
+/* ---------- copyright flaps ---------- */
+(function(){$('flaps').innerHTML='COPYRIGHT MICELINK 2026'.split(' ').map(function(w){return '<span class="fw">'+w.split('').map(function(c){return '<i>'+c+'</i>'}).join('')+'</span>'}).join('');})();
+
+/* ---------- screens ---------- */
+function show(name){S.screen=name;['home','quiz','result','admin'].forEach(function(n){$(n).hidden=n!==name});window.scrollTo(0,0);}
+
+/* ---------- ranking table ---------- */
+function medal(i){return i===0?'🥇':i===1?'🥈':i===2?'🥉':''}
+function rankTable(runs,opts){
+  opts=opts||{};
+  if(!runs.length) return '<div class="empty">아직 착륙한 승객이 없습니다. 첫 번째 기록의 주인공이 되어 보세요!</div>';
+  var rows=runs.map(function(r,i){
+    var me=opts.me&&r.id===opts.me;
+    return '<tr class="'+(me?'me ':'')+(i===0?'top1':'')+'"><td class="pos">'+(i+1)+'</td><td class="who"><span class="medal">'+medal(i)+'</span>'+esc(r.nick)+'</td><td>'+esc(r.team)+'</td><td class="num flap">'+r.score+' / '+r.total+'</td><td class="num flap">'+Engine.dur(r.ms)+'</td><td class="flap">'+(r.phone4?'*'+esc(r.phone4):'—')+'</td><td class="flap">'+Engine.stamp(r.at)+'</td>'+(opts.admin?'<td><button class="mini danger" data-del="'+esc(r.id)+'" type="button">삭제</button></td>':'')+'</tr>';
+  }).join('');
+  return '<table class="rank"><thead><tr><th>순위</th><th>닉네임</th><th>회사명</th><th class="num">맞은 문항</th><th class="num">소요 시간</th><th>전화 끝4</th><th>일시</th>'+(opts.admin?'<th></th>':'')+'</tr></thead><tbody>'+rows+'</tbody></table>';
+}
+function renderBoards(){
+  var runs=S.runs;
+  $('homeBoard').innerHTML=rankTable(runs);
+  $('rkCount').textContent='총 '+runs.length+'명 착륙';
+  if(S.screen==='result'&&S.myRunId){
+    $('resultBoard').innerHTML=rankTable(runs,{me:S.myRunId});
+    var pos=runs.findIndex(function(r){return r.id===S.myRunId});
+    if(pos>=0){$('rRank').textContent='현재 '+(pos+1)+'위 / '+runs.length+'명';var tr=$('resultBoard').querySelector('tr.me');if(tr&&!S._scrolled){S._scrolled=1;var sc=$('resultBoard');sc.scrollTop=Math.max(0,tr.offsetTop-80);}}
+  }
+  if(S.screen==='admin') renderAdmin();
+}
+API.onRanking(function(runs){S.runs=Engine.sortRuns(runs);renderBoards();});
+
+/* ---------- start ---------- */
+var busy=false;
+$('fPhone').addEventListener('input',function(e){e.target.value=e.target.value.replace(/\D/g,'').slice(0,4)});
+$('startForm').addEventListener('submit',function(e){
+  e.preventDefault(); if(busy) return;
+  var p={team:$('fTeam').value,nick:$('fNick').value,phone4:$('fPhone').value};
+  $('formErr').textContent='';
+  if(!p.team.trim()) {$('formErr').textContent='회사명을 입력해 주세요.';$('fTeam').focus();return;}
+  if(!p.nick.trim()) {$('formErr').textContent='닉네임을 입력해 주세요.';$('fNick').focus();return;}
+  if(p.phone4&&p.phone4.length!==4){$('formErr').textContent='전화번호 끝 4자리는 숫자 4개로 입력하거나 비워 두세요.';return;}
+  busy=true;$('startBtn').disabled=true;$('startBtn').textContent='탑승 수속 중…';
+  API.startQuiz(p).then(function(q){
+    S.profile=Engine.cleanProfile(p);S.quiz=q;S.idx=0;S.answers=q.questions.map(function(){return -1});
+    S.t0=Date.now();clearInterval(S.tick);S.tick=setInterval(tick,250);
+    buildDots();show('quiz');renderQ();guardOn();
+  }).catch(function(err){$('formErr').textContent=(err&&err.message)||'퀴즈를 시작하지 못했습니다. 잠시 후 다시 시도해 주세요.';})
+  .then(function(){busy=false;$('startBtn').disabled=false;$('startBtn').textContent='탑승하기 · 퀴즈 시작 ✈️';});
+});
+function tick(){ $('timer').textContent=Engine.clock(Date.now()-S.t0); }
+
+/* ---------- quiz ---------- */
+var KEYS=['A','B','C','D','E'];
+function buildDots(){
+  var n=S.quiz.questions.length,h='';
+  for(var i=0;i<n;i++) h+='<button class="dot" type="button" data-i="'+i+'" aria-label="'+(i+1)+'번 문항">'+(i+1)+'</button>';
+  $('dots').innerHTML=h;$('qTotal').textContent=n;
+}
+function renderQ(){
+  var qs=S.quiz.questions,q=qs[S.idx],n=qs.length,i=S.idx;
+  $('qNo').textContent=i+1;
+  var isB=q.type==='B';
+  $('qTag').textContent=isB?'뜻 찾기':'용어 찾기';$('qTag').className='tag'+(isB?' rev':'');
+  $('qAsk').textContent=isB?'다음 용어의 의미로 알맞은 것은?':'다음 설명에 해당하는 용어는?';
+  $('qPrompt').textContent=q.prompt;$('qPrompt').className='qprompt'+(isB?' word':'');
+  $('qEx').hidden=!q.example;$('qExText').textContent=q.example||'';
+  $('choices').innerHTML=q.choices.map(function(c,k){
+    var sel=S.answers[i]===k;
+    return '<button type="button" role="radio" aria-checked="'+sel+'" class="choice'+(isB?'':' en')+(sel?' sel':'')+'" data-k="'+k+'"><span class="k">'+KEYS[k]+'</span><span class="t">'+esc(c)+'</span></button>';
+  }).join('');
+  $('prevBtn').disabled=i===0;$('prevBtn').style.visibility=i===0?'hidden':'visible';
+  var last=i===n-1;
+  var left=S.answers.filter(function(a){return a<0}).length;
+  $('nextBtn').textContent=last?'제출하고 채점하기 🛬':'다음 →';
+  $('nextBtn').disabled=last&&left>0;
+  $('qHint').textContent=last&&left>0?'아직 풀지 않은 문항이 '+left+'개 있습니다. 아래 번호를 눌러 이동하세요.':'';
+  // plane: 1번 = 출발 깃발, 마지막 문항 = 터미널 도착
+  var p=n>1?i/(n-1):1;
+  var leftPct=4+p*84;
+  $('plane').style.left=leftPct+'%';
+  $('plane').style.bottom=(30+Math.sin(Math.PI*p)*44)+'px';
+  $('plane').textContent=p>=0.8?'🛬':'✈️';
+  $('trail').style.width=Math.max(0,leftPct-4)+'%';
+  [].forEach.call($('dots').children,function(d,j){d.className='dot'+(S.answers[j]>=0?' done':'')+(j===i?' cur':'')});
+}
+$('choices').addEventListener('click',function(e){
+  var b=e.target.closest('.choice');if(!b) return;
+  S.answers[S.idx]=+b.dataset.k;renderQ();
+  var n=S.quiz.questions.length;
+  if(S.idx<n-1){var at=S.idx;setTimeout(function(){if(S.screen==='quiz'&&S.idx===at){S.idx++;renderQ();}},280);}
+});
+$('prevBtn').addEventListener('click',function(){if(S.idx>0){S.idx--;renderQ();}});
+$('nextBtn').addEventListener('click',function(){
+  var n=S.quiz.questions.length;
+  if(S.idx<n-1){S.idx++;renderQ();return;}
+  submit();
+});
+$('dots').addEventListener('click',function(e){var d=e.target.closest('.dot');if(!d)return;S.idx=+d.dataset.i;renderQ();});
+document.addEventListener('keydown',function(e){
+  if(S.screen!=='quiz'||e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+  var k=e.key.toUpperCase(),i=KEYS.indexOf(k);if(i<0&&/^[1-4]$/.test(e.key))i=+e.key-1;
+  if(i>=0&&i<S.quiz.questions[S.idx].choices.length){var b=$('choices').children[i];if(b)b.click();}
+});
+
+function resetAll(){
+  clearInterval(S.tick);S.quiz=null;S.answers=[];S.idx=0;S.profile=null;S.result=null;S.myRunId=null;S._scrolled=0;guardOff();
+  $('startForm').reset();$('timer').textContent='00:00';
+}
+
+/* ---------- submit ---------- */
+function submit(){
+  if(S.answers.some(function(a){return a<0})) return;
+  var ms=Date.now()-S.t0;clearInterval(S.tick);guardOff();
+  $('nextBtn').disabled=true;$('nextBtn').textContent='채점 중…';
+  API.submitQuiz(S.quiz,S.answers,ms,S.profile).then(function(res){
+    S.result=res;S.myRunId=res.run.id;S._scrolled=0;
+    showResult(res);
+  }).catch(function(err){
+    $('qHint').textContent=(err&&err.message)||'채점 결과를 저장하지 못했습니다. 다시 눌러 주세요.';
+    $('nextBtn').disabled=false;$('nextBtn').textContent='제출하고 채점하기 🛬';
+  });
+}
+function showResult(res){
+  var r=res.run;
+  show('result');
+  $('rNick').textContent=r.nick;$('rTeam').textContent=r.team;$('rTime').textContent=Engine.dur(r.ms);$('rStamp').textContent=Engine.stamp(r.at);
+  $('rScore').textContent=r.score;$('rTotal').textContent=r.total;
+  var pct=r.score/r.total;
+  $('rTitle').textContent=pct>=0.9?'퍼펙트 랜딩! 🛬':pct>=0.7?'안정적인 착륙! 🛬':pct>=0.5?'무사히 착륙했습니다 🛬':'비상 착륙… 그래도 도착! 🛬';
+  $('rvSummary').textContent='정답 '+r.score+' · 오답 '+(r.total-r.score);
+  $('review').innerHTML=res.review.map(function(v){
+    var right=v.type==='A'?esc(v.en)+(v.ko?' <span style="color:var(--mute)">('+esc(v.ko)+')</span>':''):esc(v.meaning);
+    return '<div class="rv '+(v.ok?'ok':'no')+'"><div class="mark">'+(v.ok?'정답':'오답')+'</div><div style="min-width:0"><p class="p">'+v.no+'. '+esc(v.prompt)+'</p><p class="a">내 답: <span class="y">'+esc(v.yours)+'</span>'+(v.ok?'':'  ·  정답: <span class="c">'+right+'</span>')+(v.ok&&v.type==='A'&&v.ko?'  ·  '+esc(v.en)+' ('+esc(v.ko)+')':'')+'</p></div></div>';
+  }).join('');
+  $('st2').className='step on';$('st3').className='step on';
+  if(res.posted){$('rPostNote').textContent='누적 랭킹에 기록이 게시되었습니다';}
+  else {$('rPostNote').textContent=res.postError||'이 화면에서는 기록을 저장할 수 없어 랭킹에 게시되지 않았습니다';$('rRank').textContent='랭킹 미게시';}
+  S.runs=Engine.sortRuns(S.runs.filter(function(x){return x.id!==r.id}).concat(res.posted?[r]:[]));
+  renderBoards();
+  if(res.posted){var pos=S.runs.findIndex(function(x){return x.id===r.id});$('rRank').textContent='현재 '+(pos+1)+'위 / '+S.runs.length+'명';}
+  writeShare();
+}
+
+/* ---------- share / challenge ---------- */
+var TAUNTS=[
+  function(r,l){return '✈️ [Tourism Industry Terminology Quiz] 도전장 도착!\n\n'+r.team+' '+r.nick+' 기장이 '+r.total+'문제 중 '+r.score+'개를 맞히고 '+Engine.dur(r.ms)+' 만에 착륙했습니다 🛬\n\n"Allotment, Attrition… 이 정도는 기본 아닌가요?"\n자신 있으면 따라와 보세요. 활주로는 비워 뒀습니다 😏\n\n👉 '+l},
+  function(r,l){return '📮 공식 도전장 (반송 불가)\n\n발신: '+r.team+' '+r.nick+'\n기록: '+r.score+'/'+r.total+' · '+Engine.dur(r.ms)+'\n\n체크인은 잘하면서 컷오프 데이트는 모르는 거 아니죠?\n지금 이륙하지 않으면 자동으로 노쇼(No-show) 처리됩니다 ✋\n\n👉 '+l},
+  function(r,l){return '🚨 기장 방송입니다.\n\n본 기는 '+r.nick+'('+r.team+') 님의 기록 '+r.score+'/'+r.total+', 비행시간 '+Engine.dur(r.ms)+'으로 이미 착륙했습니다.\n귀하의 좌석은 아직 비어 있습니다. 탑승을 미루면 오버부킹으로 밀려날 수 있으니 서두르세요 😎\n\n👉 '+l},
+  function(r,l){return '🏆 '+r.nick+'의 도전장\n\n"'+r.score+'개 맞혔고 '+Engine.dur(r.ms)+' 걸렸어. 너는 몇 개? 🤭"\n\nMICE·호텔·여행 실무 용어 30문제. 도망가면 기권패, 지면 커피 한 잔 ☕\n(커피 조항은 '+r.nick+' 일방 주장임)\n\n👉 '+l}
+];
+var tauntIdx=0;
+function writeShare(){
+  var r=S.result.run, link=API.shareLink(r);
+  $('shareText').value=TAUNTS[tauntIdx%TAUNTS.length](r,link);
+}
+$('rerollBtn').addEventListener('click',function(){tauntIdx++;writeShare();$('copyToast').textContent='';});
+$('copyBtn').addEventListener('click',function(){
+  var t=$('shareText').value;
+  function fallback(){var ta=$('shareText');ta.focus();ta.select();try{document.execCommand('copy');$('copyToast').textContent='복사했습니다. 메신저에 붙여넣어 도전장을 보내세요!';}catch(e){$('copyToast').textContent='문구가 선택되었습니다. Ctrl+C (또는 길게 눌러 복사)로 복사하세요.';}}
+  try{navigator.clipboard.writeText(t).then(function(){$('copyToast').textContent='복사했습니다. 메신저에 붙여넣어 도전장을 보내세요!';},fallback);}catch(e){fallback();}
+});
+$('againBtn').addEventListener('click',function(){var p=S.profile;resetAll();show('home');if(p){$('fTeam').value=p.team;$('fNick').value=p.nick;$('fPhone').value=p.phone4||'';}$('fTeam').focus();});
+$('homeBtn').addEventListener('click',function(){resetAll();show('home');});
+
+/* ---------- leaving mid-quiz resets ---------- */
+var leaveArm=false;
+$('brandBtn').addEventListener('click',function(){
+  if(S.screen==='quiz'){
+    if(!leaveArm){leaveArm=true;$('qHint').textContent='한 번 더 누르면 퀴즈를 그만두고 첫 화면으로 갑니다. 진행 상황은 모두 초기화됩니다.';setTimeout(function(){leaveArm=false},4000);return;}
+  }
+  leaveArm=false;resetAll();show('home');
+});
+window.addEventListener('pagehide',function(){resetAll();});
+window.addEventListener('beforeunload',function(e){if(S.screen==='quiz'){e.preventDefault();e.returnValue='';}});
+window.addEventListener('popstate',function(){if(S.screen==='quiz'){resetAll();show('home');}});
+
+/* ---------- light anti-peek guard ---------- */
+var guardTimer=null;
+function guardOn(){guardOff();guardTimer=setInterval(function(){var t=performance.now();probe();if(performance.now()-t>120)tripGuard();},1500);}
+function probe(){debugger;}
+function guardOff(){clearInterval(guardTimer);guardTimer=null;}
+function tripGuard(){if(S.screen!=='quiz')return;resetAll();show('home');$('guard').hidden=false;}
+$('guardOk').addEventListener('click',function(){$('guard').hidden=true;});
+document.addEventListener('contextmenu',function(e){if(e.target.tagName!=='TEXTAREA'&&e.target.tagName!=='INPUT')e.preventDefault();});
+document.addEventListener('keydown',function(e){
+  var k=(e.key||'').toLowerCase(),mod=e.ctrlKey||e.metaKey;
+  if(k==='f12'||(mod&&e.shiftKey&&/^[ijck]$/.test(k))||(mod&&e.altKey&&/^[ijcu]$/.test(k))||(mod&&/^[us]$/.test(k))){e.preventDefault();e.stopPropagation();}
+},true);
+['copy','cut','dragstart'].forEach(function(ev){document.addEventListener(ev,function(e){if(S.screen==='quiz')e.preventDefault();});});
+
+/* ---------- shared challenge link ---------- */
+function showChallenge(run){
+  var box=document.createElement('section');box.className='challenge';
+  box.innerHTML='<div class="eyebrow" style="color:var(--sign-ink)">INCOMING CHALLENGE</div><h2>'+esc(run.team)+' '+esc(run.nick)+'님이 도전장을 보냈습니다! 🧤</h2><p class="cstat">'+run.total+'문제 중 '+run.score+'개 정답 · '+Engine.dur(run.ms)+' · '+Engine.stamp(run.at)+'</p><p>이 기록을 넘을 자신이 있다면 아래 탑승권을 작성하고 바로 이륙하세요. 정답 수가 같으면 더 빨리 착륙한 사람이 이깁니다.</p>';
+  var hero=document.querySelector('#home .hero');hero.parentNode.insertBefore(box,hero.nextSibling);
+}
+API.readShareToken().then(function(tok){if(!tok)return;return API.getRun(tok).then(function(run){if(run)showChallenge(run);});}).catch(function(){});
+
+/* ---------- admin ---------- */
+var adminTab='runs';
+$('adminLink').addEventListener('click',function(){show('admin');renderAdmin();});
+$('adminBack').addEventListener('click',function(){show('home');});
+[].forEach.call(document.querySelectorAll('.tab'),function(t){t.addEventListener('click',function(){
+  adminTab=t.dataset.tab;[].forEach.call(document.querySelectorAll('.tab'),function(x){x.classList.toggle('on',x===t)});
+  $('tabRuns').hidden=adminTab!=='runs';$('tabBank').hidden=adminTab!=='bank';if(adminTab==='bank')loadBankInfo();
+});});
+function renderAdmin(){
+  var runs=S.runs,n=runs.length;
+  var avg=n?runs.reduce(function(s,r){return s+r.score},0)/n:0,avgMs=n?runs.reduce(function(s,r){return s+r.ms},0)/n:0;
+  var teams={};runs.forEach(function(r){teams[r.team]=1});
+  $('aStats').innerHTML='<div class="stat"><b>응시 수</b><span>'+n+'</span></div><div class="stat"><b>평균 정답</b><span>'+avg.toFixed(1)+'</span></div><div class="stat"><b>평균 소요</b><span>'+Engine.dur(avgMs)+'</span></div><div class="stat"><b>참여 회사</b><span>'+Object.keys(teams).length+'</span></div>';
+  $('adminBoard').innerHTML=rankTable(runs,{admin:true});
+}
+$('adminBoard').addEventListener('click',function(e){
+  var b=e.target.closest('[data-del]');if(!b)return;
+  if(b.dataset.armed!=='1'){b.dataset.armed='1';b.textContent='정말 삭제';setTimeout(function(){b.dataset.armed='';b.textContent='삭제'},3000);return;}
+  var run=S.runs.find(function(r){return r.id===b.dataset.del});
+  API.admin.deleteRun(run).then(function(){$('aToast').textContent='기록을 삭제했습니다.';}).catch(function(err){$('aToast').textContent=(err&&err.message)||'삭제하지 못했습니다.';});
+});
+$('resetBtn').addEventListener('click',function(){$('resetConfirm').hidden=false;});
+$('resetNo').addEventListener('click',function(){$('resetConfirm').hidden=true;});
+$('resetYes').addEventListener('click',function(){$('resetConfirm').hidden=true;API.admin.resetRuns().then(function(){$('aToast').textContent='랭킹을 초기화했습니다.';}).catch(function(err){$('aToast').textContent=(err&&err.message)||'초기화하지 못했습니다.';});});
+$('csvBtn').addEventListener('click',function(){
+  var head=['순위','닉네임','회사명','전화끝4','맞은문항','전체문항','소요시간(초)','일시(YYYYMMDD.HH.MM)'];
+  var lines=[head].concat(S.runs.map(function(r,i){return [i+1,r.nick,r.team,r.phone4?"'"+r.phone4:'',r.score,r.total,(r.ms/1000).toFixed(1),Engine.stamp(r.at)];}));
+  var csv='﻿'+lines.map(function(l){return l.map(function(c){c=String(c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(',')}).join('\r\n');
+  API.admin.exportCsv('micelink_quiz_'+Engine.stamp(Date.now()).replace(/\./g,'')+'.csv',csv).then(function(m){$('aToast').textContent=m||'';}).catch(function(err){$('aToast').textContent=(err&&err.message)||'내려받지 못했습니다.';});
+});
+var parsed=null;
+function loadBankInfo(){API.admin.bankInfo().then(function(b){$('aBankInfo').innerHTML=b.count+'개 용어 · '+(b.updatedAt?Engine.stamp(b.updatedAt)+' 갱신':'')+(b.sample?'<span class="badge-sample">샘플</span>':'');});}
+$('parseBtn').addEventListener('click',function(){
+  var rows=Engine.parseTable($('bankInput').value),res=Engine.rowsToBank(rows);parsed=res;
+  var m=res.mapping,h=res.headerRow;
+  function nm(i){return i==null?'—':(h?'"'+esc(h[i])+'"':(i+1)+'번째 열');}
+  $('parseInfo').innerHTML='인식된 용어 <b>'+res.items.length+'</b>개 (건너뛴 행 '+res.skipped+'개) · 영문: '+nm(m.en!=null?m.en:m.word)+' · 한글: '+nm(m.ko!=null?m.ko:m.word)+' · 뜻: '+nm(m.meaning)+' · 예문: '+nm(m.example)+(res.items.length<30?'<br><span style="color:var(--no)">한 회차 30문제를 내려면 용어가 30개 이상 필요합니다. 부족하면 있는 만큼만 출제됩니다.</span>':'');
+  $('bankPreview').innerHTML=res.items.length?'<table class="rank"><thead><tr><th>#</th><th>영문</th><th>한글</th><th>뜻</th><th>예문 (빈칸 처리)</th></tr></thead><tbody>'+res.items.slice(0,50).map(function(it,i){return '<tr><td>'+(i+1)+'</td><td>'+esc(it.en)+'</td><td>'+esc(it.ko)+'</td><td style="white-space:normal;min-width:220px">'+esc(it.meaning)+'</td><td style="white-space:normal;min-width:220px">'+esc(Engine.blankExample(it.example,it))+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty">인식된 용어가 없습니다. 머리글 행을 포함해 복사했는지 확인해 주세요.</div>';
+  $('saveBankBtn').disabled=res.items.length<4;
+});
+$('saveBankBtn').addEventListener('click',function(){
+  if(!parsed)return;$('saveBankBtn').disabled=true;
+  API.admin.saveBank(parsed.items).then(function(){$('parseInfo').innerHTML='문제은행에 '+parsed.items.length+'개 용어를 적용했습니다. 다음 회차부터 반영됩니다.';loadBankInfo();refreshChip();})
+  .catch(function(err){$('parseInfo').textContent=(err&&err.message)||'저장하지 못했습니다.';$('saveBankBtn').disabled=false;});
+});
+
+/* ---------- boot ---------- */
+function refreshChip(){API.bankCount().then(function(b){$('bankChip').textContent=b.count?'문제은행 '+b.count+'개 용어'+(b.sample?' (샘플)':''):'문제은행 준비 중';}).catch(function(){$('bankChip').textContent='문제은행 확인 불가';});}
+API.init().then(function(info){S.canAdmin=!!info.canAdmin;$('adminLink').hidden=!S.canAdmin;refreshChip();});
+})();
+</script>
+
+</body>
+</html>
